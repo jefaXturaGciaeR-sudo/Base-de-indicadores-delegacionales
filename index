@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIAE Live — Análisis Estratégico IMSS 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f3ee;--card:#fff;--border:#ddd9ce;--text:#1a1917;--muted:#7a7870;--accent:#006341;--accent2:#004d32;--red:#c0392b;--yellow:#d4a017;--green:#006341;--blue:#1d4ed8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text)}
+.top{background:linear-gradient(135deg,#003d2b,#006341);color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
+.top h1{font-size:16px;font-weight:700}.top .sub{font-size:11px;opacity:.6;margin-top:2px}
+.top .r{display:flex;align-items:center;gap:12px}
+.dot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:p 2s infinite}.dot.off{background:#ef4444;animation:none}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.4}}
+.st{display:flex;align-items:center;gap:6px;font-size:11px;opacity:.8}
+.br{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:5px 12px;border-radius:6px;font-family:inherit;font-size:11px;cursor:pointer}
+.nv{display:flex;gap:3px;padding:6px 24px;background:#fff;border-bottom:1px solid var(--border);overflow-x:auto}
+.nv button{padding:6px 12px;border:none;background:none;font-family:inherit;font-size:11px;cursor:pointer;border-radius:6px;color:var(--muted);white-space:nowrap}
+.nv button.a{background:var(--accent2);color:#fff;font-weight:500}
+.nv button:hover:not(.a){background:#edebe4}
+.mn{max-width:1280px;margin:0 auto;padding:16px 24px}
+.g{display:grid;gap:10px;margin-bottom:14px}
+.g4{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}.g2{grid-template-columns:1fr 1fr}
+@media(max-width:800px){.g2{grid-template-columns:1fr}}
+.mc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.mc .lb{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.mc .vl{font-size:20px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.mc .sm{font-size:10px;color:var(--muted);margin-top:2px}
+.vl.gr{color:var(--green)}.vl.yl{color:var(--yellow)}.vl.rd{color:var(--red)}
+.cd{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px}
+.ct{font-size:12px;font-weight:700;margin-bottom:10px}
+.cw{position:relative;width:100%;height:280px}
+.tw{max-height:460px;overflow-y:auto;border:1px solid var(--border);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;padding:6px 7px;font-weight:600;font-size:9px;color:var(--muted);border-bottom:2px solid var(--border);text-transform:uppercase;letter-spacing:.3px;position:sticky;top:0;background:#fff;z-index:1}
+td{padding:5px 7px;border-bottom:1px solid #f0efe8}
+tr:hover td{background:#fafaf6}
+.pl{display:inline-block;padding:2px 8px;border-radius:16px;font-size:9px;font-weight:600}
+.pg{background:#dcfce7;color:#14532d}.py{background:#fef9c3;color:#854d0e}.pr{background:#fee2e2;color:#7f1d1d}
+.fl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.fl select{font-family:inherit;font-size:11px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:#fff}
+.fl label{font-size:10px;color:var(--muted);font-weight:500}
+.al{padding:8px 12px;border-radius:6px;font-size:11px;margin-bottom:5px;border-left:3px solid;line-height:1.5}
+.ar{background:#fff5f5;border-color:var(--red)}.ay{background:#fffbeb;border-color:var(--yellow)}
+.al b{font-weight:600}
+.btn{padding:6px 12px;border:1px solid var(--accent);background:var(--accent);color:#fff;font-family:inherit;font-size:11px;cursor:pointer;border-radius:6px;font-weight:500}
+.btn:hover{background:var(--accent2)}
+.eb{background:#f8f7f3;border:1px solid var(--border);border-radius:8px;padding:14px;font-size:11px;line-height:1.7;white-space:pre-wrap;max-height:400px;overflow-y:auto;font-family:'JetBrains Mono',monospace}
+.ld{text-align:center;padding:50px;color:var(--muted);font-size:13px}
+.sp{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:s .8s linear infinite;margin:0 auto 10px}
+@keyframes s{to{transform:rotate(360deg)}}
+.cp{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;max-width:560px;margin:30px auto}
+.cp h2{font-size:15px;margin-bottom:14px}
+.cp label{display:block;font-size:11px;font-weight:500;margin:10px 0 3px;color:var(--muted)}
+.cp input{width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:12px}
+.cp .nt{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4}
+.cp .btn{margin-top:16px;width:100%;padding:10px;font-size:12px}
+.tg{display:inline-block;background:#e8f5e9;color:var(--green);padding:1px 7px;border-radius:4px;font-size:9px;font-weight:600;margin-left:6px}
+.cat{display:inline-block;padding:1px 6px;border-radius:3px;font-size:9px;font-weight:500;margin-left:4px}
+.cat-s{background:#dbeafe;color:#1e40af}.cat-m{background:#fce7f3;color:#9d174d}.cat-p{background:#f3e8ff;color:#6b21a8}
+</style>
+</head>
+<body>
+<div class="top">
+<div><h1>CIAE Live — Centro de Análisis Estratégico</h1><div class="sub">OOAD México Poniente · Tablero MMIM + Evaluación de Desempeño · En vivo</div></div>
+<div class="r"><div class="st"><div class="dot" id="sDot"></div><span id="sTxt">Conectando...</span></div><button class="br" onclick="refreshData()">↻ Actualizar</button></div>
+</div>
+<div class="nv" id="nav"></div>
+<div class="mn" id="app"></div>
+
+<script>
+// ═══ CONFIG ═══
+const DC={
+  sheetMMIM:'1EH8inIxhnvdkzPK7UedJt8zCSnhGvl8z1aBCyKBfY4M',
+  sheetEval:'1m2vK6hcZi41gbRzC3PFTFxJPWdVElyojzxwwCzSTM0w',
+  apiKey:''
+};
+function gc(){try{const s=localStorage.getItem('ciae2');return s?{...DC,...JSON.parse(s)}:{...DC}}catch(e){return{...DC}}}
+function sc(c){localStorage.setItem('ciae2',JSON.stringify(c))}
+
+// ═══ SHEET DEFINITIONS ═══
+// Eval sheets: weekly + historical (structure A)
+const EVAL_TABS=[
+  {tab:'DM 01',type:'eval'},
+  {tab:'EH 01',type:'eval'},
+  {tab:'CAMA 01',type:'eval'},
+  {tab:'CACU 01',type:'eval'},
+  {tab:'CUPN 01',type:'eval'},
+  {tab:'S_Ob 01',type:'eval'}
+];
+// MMIM monthly sheets (structure B) - only those NOT in Eval
+const MMIM_TABS=[
+  {tab:'DM02',type:'mmim_monthly',label:'DM 02'},
+  {tab:'EH02',type:'mmim_monthly',label:'EH 02'},
+  {tab:'DM03',type:'mmim_monthly',label:'DM 03'},
+  {tab:'MATERNA01',type:'mmim_monthly',label:'Materna 01'},
+  {tab:'MATERNA02',type:'mmim_monthly',label:'Materna 02'},
+  {tab:'SOB02',type:'mmim_monthly',label:'SOb 02'},
+  {tab:'CUPN 04',type:'mmim_monthly',label:'CUPN 04'},
+  {tab:'CUPN 05',type:'mmim_monthly',label:'CUPN 05'},
+  {tab:'CUPN 07',type:'mmim_monthly',label:'CUPN 07'},
+  {tab:'CE01',type:'mmim_monthly',label:'CE 01'},
+  {tab:'CE 02',type:'mmim_monthly',label:'CE 02'}
+];
+
+const MONTHS=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+// ═══ FETCH ═══
+async function fetchSheet(sid,tab){
+  const url=`https://docs.google.com/spreadsheets/d/${sid}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(tab)}`;
+  try{
+    const r=await fetch(url);const t=await r.text();
+    const m=t.match(/google\.visualization\.Query\.setResponse\((.+)\);?/);
+    if(!m)throw new Error('No data');
+    const j=JSON.parse(m[1]);
+    if(j.status==='error')throw new Error(j.errors?.[0]?.message||'Error');
+    return{cols:j.table.cols.map(c=>c.label||''),rows:j.table.rows.map(r=>r.c.map(c=>c?c.v:null))};
+  }catch(e){console.warn(`${tab}: ${e.message}`);return null}
+}
+
+// ═══ PARSERS ═══
+function parseEval(data,tab){
+  if(!data||!data.rows||data.rows.length<15)return null;
+  const R=data.rows;
+  const name=R[1]?.[1]||tab;
+  let green=null,yellow=null,red=null;
+  for(let c=8;c<20;c++){
+    const v6=String(R[6]?.[c]||''),v7=String(R[7]?.[c]||''),v8=String(R[8]?.[c]||'');
+    if(v6.includes('>='))green=v6.trim();
+    if(v7.includes('>')&&v7.includes('<'))yellow=v7.trim();
+    if(v8.includes('<='))red=v8.trim();
+    if(green)break;
+  }
+  const metas={};
+  for(let c=8;c<Math.min(R[6]?.length||0,80);c++){
+    const v=String(R[6]?.[c]||''),ml=String(R[9]?.[c]||'');
+    if(v.includes('>=')){
+      const n=parseFloat(v.replace('>=','').replace('..','.')); 
+      if(!isNaN(n)){const mo=MONTHS.find(m=>ml.toLowerCase().includes(m.toLowerCase()));if(mo)metas[mo]=n;}
+    }
+  }
+  const umfs=[];let ooad=null;
+  for(let r=12;r<R.length;r++){
+    const row=R[r];if(!row)continue;
+    const cl=String(row[0]||'').trim(),nm=String(row[1]||'').trim();
+    if(!nm||nm.length<3)continue;
+    const hist={};
+    [2,3,4,5,6,7,8].forEach((c,i)=>{const v=row[c];if(v!==null&&typeof v==='number')hist[2018+i]=Math.round(v*100)/100});
+    const wk=[];for(let c=10;c<Math.min(30,row.length);c++){const v=row[c];if(v!==null&&typeof v==='number')wk.push(Math.round(v*100)/100)}
+    const ce=typeof row[14]==='number'?Math.round(row[14]*100)/100:null;
+    const cf=typeof row[20]==='number'?Math.round(row[20]*100)/100:null;
+    const e={clave:cl,nombre:nm,hist,weekly:wk,cpEne:ce,cpFeb:cf};
+    if(nm.toUpperCase().includes('OOAD')||nm.toUpperCase().includes('PONIENTE'))ooad=e;
+    else if(nm.toUpperCase().includes('UMF')||nm.toUpperCase().includes('HGZ')||nm.toUpperCase().includes('UMFH')||/^\d{12}$/.test(cl))umfs.push(e);
+  }
+  return{name,green,yellow,red,metas,ooad,umfs,tab,cat:'semanal'};
+}
+
+function parseMMIMMonthly(data,tab,label){
+  if(!data||!data.rows||data.rows.length<12)return null;
+  const R=data.rows;
+  // Get indicator name from row 2
+  let name=label;
+  for(let c=1;c<6;c++){const v=String(R[2]?.[c]||'').trim();if(v.length>10&&!v.includes('INSTITUTO')&&!v.includes('INDICADOR:')){name=v;break}}
+  if(name===label){for(let c=1;c<6;c++){const v=String(R[2]?.[c]||'').trim();if(v.includes('-')){name=v;break}}}
+  
+  // Thresholds from rows 4-6 or 6-8 depending on sheet
+  let green=null,yellow=null,red=null;
+  for(let r=4;r<=8;r++){for(let c=4;c<20;c++){
+    const v=String(R[r]?.[c]||'');
+    if(v.includes('>=')&&!green)green=v.trim();
+    if(v.includes('<=')&&!red)red=v.trim();
+    if(v.includes('>')&&v.includes('<')&&!yellow)yellow=v.trim();
+  }}
+  
+  // Monthly structure: Row 8 has month names at cols 6,8,10,...
+  // Data starts at row 11, col 0 = UMF name, col 3 = indicator value
+  // Monthly values at even cols 6,8,10,...
+  const monthCols={};
+  for(let c=3;c<30;c++){
+    const v=String(R[8]?.[c]||'').trim().toUpperCase();
+    const mo=MONTHS.find(m=>m.toUpperCase()===v);
+    if(mo)monthCols[mo]=c;
+  }
+  
+  const umfs=[];let ooad=null;
+  for(let r=11;r<R.length;r++){
+    const row=R[r];if(!row)continue;
+    // Col 0 or col 5 has UMF name
+    let nm=String(row[0]||'').trim();
+    if(!nm||nm.length<3){nm=String(row[5]||'').trim()}
+    if(!nm||nm.length<3)continue;
+    if(nm.toLowerCase().includes('elabor'))continue;
+    
+    // Current indicator value in col 3
+    let currentVal=row[3];
+    if(currentVal===null||typeof currentVal!=='number'){
+      // Try col 5 for some sheets
+      for(let c=3;c<=5;c++){if(typeof row[c]==='number'){currentVal=row[c];break}}
+    }
+    
+    // Monthly values
+    const monthly={};
+    Object.entries(monthCols).forEach(([mo,c])=>{
+      const v=row[c];if(v!==null&&typeof v==='number')monthly[mo]=Math.round(v*100)/100;
+      // Also check c+1 for "oficial" value
+      const vo=row[c+1];if(vo!==null&&typeof vo==='number')monthly[mo+'_of']=Math.round(vo*100)/100;
+    });
+    
+    const e={nombre:nm,currentVal:typeof currentVal==='number'?Math.round(currentVal*100)/100:null,monthly,hist:{},weekly:[],cpEne:monthly.Enero||null,cpFeb:monthly.Febrero||monthly.Enero||null};
+    
+    if(nm.toLowerCase().includes('total')||nm.toLowerCase().includes('ooad')||nm.toLowerCase().includes('delegac'))ooad=e;
+    else if(nm.length>4)umfs.push(e);
+  }
+  
+  // Build metas from green threshold (same value all year for monthly indicators)
+  const metas={};
+  if(green){const gv=parseFloat(green.replace('>=','').replace('<=','').trim());if(!isNaN(gv))MONTHS.forEach(m=>metas[m]=gv)}
+  
+  return{name,green,yellow,red,metas,ooad,umfs,tab,cat:'mensual'};
+}
+
+// ═══ STATE ═══
+let S={loaded:false,loading:false,error:null,lastUpdate:null,data:{}};
+let cv='config',si='',su='all',charts={};
+
+// ═══ LOAD ═══
+async function loadAllData(){
+  const cfg=gc();S.loading=true;S.error=null;render();
+  try{
+    const promises=[];
+    // Eval sheets
+    EVAL_TABS.forEach(t=>promises.push(fetchSheet(cfg.sheetEval,t.tab).then(d=>({...t,data:d,src:'eval'}))));
+    // MMIM monthly sheets
+    MMIM_TABS.forEach(t=>promises.push(fetchSheet(cfg.sheetMMIM,t.tab).then(d=>({...t,data:d,src:'mmim'}))));
+    
+    const results=await Promise.allSettled(promises);
+    let ok=0;S.data={};
+    results.forEach(r=>{
+      if(r.status!=='fulfilled'||!r.value.data)return;
+      const v=r.value;
+      let parsed;
+      if(v.src==='eval')parsed=parseEval(v.data,v.tab);
+      else parsed=parseMMIMMonthly(v.data,v.tab,v.label);
+      if(parsed&&parsed.umfs.length>0){
+        const key=v.label||v.tab;
+        S.data[key]=parsed;ok++;
+      }
+    });
+    if(ok===0)throw new Error('No se pudieron leer los Google Sheets. Verifica que estén compartidos como "Cualquier persona con el enlace puede ver".');
+    S.loaded=true;S.lastUpdate=new Date();
+    si=Object.keys(S.data)[0];
+    document.getElementById('sDot').classList.remove('off');
+    document.getElementById('sTxt').textContent=`${ok} hojas · ${new Date().toLocaleTimeString('es-MX')}`;
+    cv='dashboard';
+  }catch(e){
+    S.error=e.message;
+    document.getElementById('sDot').classList.add('off');
+    document.getElementById('sTxt').textContent='Error';
+  }
+  S.loading=false;render();
+}
+async function refreshData(){await loadAllData()}
+
+// ═══ RENDER ═══
+const VW=[{id:'dashboard',l:'Dashboard'},{id:'semaforo',l:'Semáforo'},{id:'tendencias',l:'Tendencias'},{id:'proyecciones',l:'Proyecciones'},{id:'correlacion',l:'Correlación'},{id:'email',l:'Email'},{id:'config',l:'⚙'}];
+
+function init(){
+  const nv=document.getElementById('nav');
+  VW.forEach(v=>{const b=document.createElement('button');b.textContent=v.l;b.onclick=()=>{cv=v.id;render()};b.dataset.v=v.id;nv.appendChild(b)});
+  const cfg=gc();if(cfg.sheetEval)loadAllData();else render();
+}
+
+function render(){
+  document.querySelectorAll('.nv button').forEach(b=>b.classList.toggle('a',b.dataset.v===cv));
+  Object.values(charts).forEach(c=>{try{c.destroy()}catch(e){}});charts={};
+  const app=document.getElementById('app');
+  if(cv==='config'){app.innerHTML=rConfig();return}
+  if(S.loading){app.innerHTML='<div class="ld"><div class="sp"></div>Conectando con Google Sheets...</div>';return}
+  if(S.error){app.innerHTML='<div class="ld">❌ '+S.error+'<br><br><button class="btn" onclick="cv=\'config\';render()">Configurar</button></div>';return}
+  if(!S.loaded){app.innerHTML='<div class="ld"><button class="btn" onclick="cv=\'config\';render()">Configurar Google Sheets</button></div>';return}
+  switch(cv){
+    case'dashboard':app.innerHTML=rDash();break;
+    case'semaforo':app.innerHTML=rSem();break;
+    case'tendencias':app.innerHTML=rTrend();setTimeout(dTrend,80);break;
+    case'proyecciones':app.innerHTML=rProj();setTimeout(dProj,80);break;
+    case'correlacion':app.innerHTML=rCorr();setTimeout(dCorr,80);break;
+    case'email':app.innerHTML=rEmail();break;
+  }
+}
+
+// ═══ HELPERS ═══
+function ks(){return Object.keys(S.data)}
+function gm(k){const d=S.data[k];return d?.metas?.Febrero||d?.metas?.Enero||5}
+function gs(v,m){if(v===null||v===undefined||isNaN(v))return'r';return v>=m?'g':v>=m*.75?'y':'r'}
+function pl(s){return`<span class="pl ${s==='g'?'pg':s==='y'?'py':'pr'}">${s==='g'?'Verde':s==='y'?'Amarillo':'Rojo'}</span>`}
+function nm(v,d=2){return v!==null&&v!==undefined&&!isNaN(v)?Number(v).toFixed(d):'-'}
+function catTag(d){return d.cat==='semanal'?'<span class="cat cat-s">Semanal</span>':d.cat==='mensual'?'<span class="cat cat-m">Mensual</span>':''}
+function getVal(u){return u.cpFeb??u.cpEne??u.currentVal??null}
+
+// ═══ CONFIG ═══
+function rConfig(){
+  const c=gc();
+  return`<div class="cp"><h2>⚙ Configuración</h2>
+  <p style="font-size:11px;color:var(--muted);margin-bottom:14px">Conecta tus 2 fuentes. Esta app reemplaza al Resumen MMIM. Los Sheets deben estar como <b>"Cualquier persona con el enlace puede ver"</b>.</p>
+  <label>Tablero MMIM 2026 (17 indicadores)</label><input id="c1" value="${c.sheetMMIM}"><div class="nt">Indicadores mensuales: DM02, DM03, EH02, Maternas, SOb02, CUPN04/05/07, CE01/02</div>
+  <label>Evaluación de Desempeño (histórico + semanal)</label><input id="c2" value="${c.sheetEval}"><div class="nt">Indicadores semanales con histórico 2018-2024: DM01, EH01, CAMA01, CACU01, CUPN01, SOb01</div>
+  <label>Google API Key (opcional)</label><input id="c3" value="${c.apiKey}" placeholder="AIza...">
+  <button class="btn" onclick="sc({sheetMMIM:document.getElementById('c1').value.trim(),sheetEval:document.getElementById('c2').value.trim(),apiKey:document.getElementById('c3').value.trim()});loadAllData()">Guardar y conectar</button>
+  ${S.loaded?'<div style="margin-top:10px;font-size:11px;color:var(--green)">✅ Conectado: '+Object.keys(S.data).length+' indicadores · '+S.lastUpdate?.toLocaleString('es-MX')+'</div>':''}</div>`;
+}
+
+// ═══ DASHBOARD ═══
+function rDash(){
+  let tG=0,tY=0,tR=0,alerts=[],semC=0,menC=0;
+  ks().forEach(k=>{const d=S.data[k],m=gm(k);if(d.cat==='semanal')semC++;else menC++;
+    d.umfs.forEach(u=>{const v=getVal(u),s=gs(v,m);if(s==='g')tG++;else if(s==='y')tY++;else{tR++;if(v!==null)alerts.push({ind:k,umf:u.nombre,val:v,meta:m})}});
+  });
+  alerts.sort((a,b)=>a.val/a.meta-b.val/b.meta);
+  
+  let h=`<div class="g g4">
+    <div class="mc"><div class="lb">Indicadores</div><div class="vl">${ks().length}</div><div class="sm">${semC} semanales + ${menC} mensuales<span class="tg">LIVE</span></div></div>
+    <div class="mc"><div class="lb">En meta</div><div class="vl gr">${tG}</div><div class="sm">UMF-indicador en verde</div></div>
+    <div class="mc"><div class="lb">En riesgo</div><div class="vl yl">${tY}</div><div class="sm">UMF-indicador en amarillo</div></div>
+    <div class="mc"><div class="lb">Fuera de meta</div><div class="vl rd">${tR}</div><div class="sm">UMF-indicador en rojo</div></div>
+  </div><div class="g g2">`;
+  
+  h+=`<div class="cd"><div class="ct">Alertas prioritarias</div>`;
+  alerts.slice(0,10).forEach(a=>h+=`<div class="al ar"><b>${a.ind}</b> — ${a.umf}: <b>${nm(a.val)}%</b> vs meta ${a.meta}%</div>`);
+  if(alerts.length===0)h+='<div style="font-size:11px;color:var(--muted)">Sin alertas críticas</div>';
+  h+=`</div>`;
+  
+  h+=`<div class="cd"><div class="ct">Todos los indicadores — último valor</div><div class="tw"><table><thead><tr><th>Indicador</th><th>Tipo</th><th>Último</th><th>Meta</th><th>Estado</th></tr></thead><tbody>`;
+  ks().forEach(k=>{
+    const d=S.data[k],m=gm(k);
+    const oVal=d.ooad?getVal(d.ooad):null;
+    const s=gs(oVal,m);
+    h+=`<tr><td><b>${k}</b></td><td>${catTag(d)}</td><td>${nm(oVal)}</td><td>${m}</td><td>${pl(s)}</td></tr>`;
+  });
+  h+=`</tbody></table></div></div></div>`;
+  return h;
+}
+
+// ═══ SEMÁFORO ═══
+function rSem(){
+  const keys=ks();const d=S.data[si];if(!d)return'<div class="ld">Sin datos</div>';
+  const m=gm(si);const isWeekly=d.cat==='semanal';
+  
+  let h=`<div class="fl"><label>Indicador:</label><select onchange="si=this.value;render()">${keys.map(k=>`<option value="${k}"${k===si?' selected':''}>${k}</option>`).join('')}</select>
+  <label>UMF:</label><select onchange="su=this.value;render()"><option value="all">Todas</option>${d.umfs.map(u=>`<option value="${u.nombre}"${u.nombre===su?' selected':''}>${u.nombre}</option>`).join('')}</select></div>`;
+  
+  h+=`<div class="cd"><div class="ct">${d.name} ${catTag(d)}</div><div class="tw"><table><thead><tr><th>UMF</th>`;
+  if(isWeekly)h+='<th>2020</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>Ene 26</th><th>Feb 26</th>';
+  else{
+    // Monthly: show available months
+    const ms=Object.keys(d.umfs[0]?.monthly||{}).filter(k=>!k.includes('_of')).slice(0,6);
+    ms.forEach(mo=>h+=`<th>${mo.substring(0,3)}</th>`);
+    h+='<th>Actual</th>';
+  }
+  h+='<th>Meta</th><th>Estado</th></tr></thead><tbody>';
+  
+  const umfs=su==='all'?d.umfs:d.umfs.filter(u=>u.nombre===su);
+  umfs.forEach(u=>{
+    const v=getVal(u),s=gs(v,m);
+    h+=`<tr><td><b>${u.nombre}</b></td>`;
+    if(isWeekly){
+      [2020,2021,2022,2023,2024].forEach(y=>h+=`<td>${u.hist[y]!==undefined?u.hist[y]:'-'}</td>`);
+      h+=`<td>${nm(u.cpEne)}</td><td>${nm(u.cpFeb)}</td>`;
+    }else{
+      const ms=Object.keys(u.monthly||{}).filter(k=>!k.includes('_of')).slice(0,6);
+      ms.forEach(mo=>h+=`<td>${nm(u.monthly[mo])}</td>`);
+      h+=`<td>${nm(u.currentVal)}</td>`;
+    }
+    h+=`<td>${m}</td><td>${pl(s)}</td></tr>`;
+  });
+  h+=`</tbody></table></div></div>`;
+  return h;
+}
+
+// ═══ TENDENCIAS ═══
+function rTrend(){
+  const keys=ks();
+  let h=`<div class="fl"><label>Indicador:</label><select onchange="si=this.value;render()">${keys.map(k=>`<option value="${k}"${k===si?' selected':''}>${k}</option>`).join('')}</select></div>`;
+  const d=S.data[si];
+  if(d?.cat==='semanal'){
+    h+=`<div class="g g2"><div class="cd"><div class="ct">Progresión semanal Q1 2026</div><div class="cw"><canvas id="c1"></canvas></div></div>
+    <div class="cd"><div class="ct">Histórico anual 2018-2024</div><div class="cw"><canvas id="c2"></canvas></div></div></div>`;
+  }else{
+    h+=`<div class="cd"><div class="ct">Valores mensuales 2026 — ${si}</div><div class="cw"><canvas id="c1"></canvas></div></div>`;
+  }
+  return h;
+}
+
+function dTrend(){
+  const d=S.data[si];if(!d)return;
+  const colors=['#006341','#1d4ed8','#c0392b','#d4a017','#7c3aed','#0891b2'];
+  if(d.cat==='semanal'){
+    const top5=d.umfs.filter(u=>u.weekly?.length>0).slice(0,5);
+    const labels=top5[0]?.weekly.map((_,i)=>'S'+(i+1))||[];
+    const ds=top5.map((u,i)=>({label:u.nombre,data:u.weekly,borderColor:colors[i%6],backgroundColor:'transparent',tension:.3,pointRadius:2,borderWidth:2}));
+    const mf=d.metas?.Febrero||10;
+    ds.push({label:'Meta feb',data:Array(labels.length).fill(mf),borderColor:'#bbb',borderDash:[5,5],pointRadius:0,borderWidth:1});
+    charts.t1=new Chart(document.getElementById('c1'),{type:'line',data:{labels,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:9}}}},scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}});
+    
+    const yrs=['2018','2019','2020','2021','2022','2023','2024'];
+    const dsH=top5.map((u,i)=>({label:u.nombre,data:yrs.map(y=>u.hist[y]||null),borderColor:colors[i%6],backgroundColor:'transparent',tension:.3,pointRadius:3,borderWidth:2}));
+    if(d.ooad)dsH.push({label:'OOAD',data:yrs.map(y=>d.ooad.hist[y]||null),borderColor:'#000',borderDash:[4,4],pointRadius:3,borderWidth:2});
+    charts.t2=new Chart(document.getElementById('c2'),{type:'line',data:{labels:yrs,datasets:dsH},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:9}}}},scales:{x:{grid:{display:false}}}}});
+  }else{
+    // Monthly chart
+    const top5=d.umfs.slice(0,5);
+    const allMs=new Set();top5.forEach(u=>Object.keys(u.monthly||{}).filter(k=>!k.includes('_of')).forEach(k=>allMs.add(k)));
+    const labels=[...allMs];
+    const ds=top5.map((u,i)=>({label:u.nombre,data:labels.map(m=>u.monthly?.[m]||null),borderColor:colors[i%6],backgroundColor:'transparent',tension:.3,pointRadius:3,borderWidth:2}));
+    charts.t1=new Chart(document.getElementById('c1'),{type:'line',data:{labels,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:9}}}},scales:{x:{grid:{display:false}}}}});
+  }
+}
+
+// ═══ PROYECCIONES ═══
+function rProj(){
+  const keys=ks().filter(k=>S.data[k].cat==='semanal');
+  if(!keys.includes(si))si=keys[0]||ks()[0];
+  const d=S.data[si];if(!d)return'';
+  const metaDic=d.metas?.Diciembre||30;
+  
+  let h=`<div class="fl"><label>Indicador (semanales):</label><select onchange="si=this.value;render()">${keys.map(k=>`<option value="${k}"${k===si?' selected':''}>${k}</option>`).join('')}</select></div>`;
+  h+=`<div class="cd"><div class="ct">Proyección lineal — ${si}</div><div class="cw"><canvas id="cp"></canvas></div></div>`;
+  h+=`<div class="cd"><div class="ct">Riesgo incumplimiento anual (meta dic: ${metaDic}%)</div><div class="tw"><table><thead><tr><th>UMF</th><th>Ritmo/sem</th><th>Proy dic</th><th>Meta</th><th>Gap</th><th>Riesgo</th></tr></thead><tbody>`;
+  d.umfs.forEach(u=>{
+    if(!u.weekly||u.weekly.length<2)return;
+    const last=u.weekly[u.weekly.length-1]||0,rate=last/u.weekly.length,proj=rate*52,gap=proj-metaDic;
+    const risk=gap>=0?'g':gap>=-metaDic*.2?'y':'r';
+    const gc=gap>=0?'color:#006341':'color:#c0392b';const gs2=gap>=0?'+':'';
+    h+='<tr><td><b>'+u.nombre+'</b></td><td>'+nm(rate)+'</td><td>'+nm(proj,1)+'</td><td>'+metaDic+'</td><td style="'+gc+'"><b>'+gs2+nm(gap,1)+'</b></td><td>'+pl(risk)+'</td></tr>';
+  });
+  h+=`</tbody></table></div></div>`;
+  return h;
+}
+
+function dProj(){
+  const d=S.data[si];if(!d||d.cat!=='semanal')return;
+  const colors=['#006341','#1d4ed8','#c0392b','#d4a017'];
+  const top4=d.umfs.filter(u=>u.weekly?.length>2).slice(0,4);
+  const allL=Array.from({length:22},(_,i)=>'S'+(i+1));
+  const ds=top4.flatMap((u,i)=>{
+    const a=[...u.weekly],rate=a[a.length-1]/a.length;
+    const proj=Array.from({length:22-a.length},(_,j)=>Math.round(rate*(a.length+j+1)*100)/100);
+    return[{label:u.nombre,data:[...a,...Array(22-a.length).fill(null)],borderColor:colors[i],pointRadius:2,borderWidth:2,tension:.3},
+           {label:u.nombre+' proy',data:[...Array(a.length-1).fill(null),a[a.length-1],...proj],borderColor:colors[i],borderDash:[4,4],pointRadius:0,borderWidth:1.5,tension:.3}];
+  });
+  charts.cp=new Chart(document.getElementById('cp'),{type:'line',data:{labels:allL,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:9}}}},scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}});
+}
+
+// ═══ CORRELACIÓN ═══
+function rCorr(){
+  const keys=ks();
+  let h=`<div class="cd"><div class="ct">Correlación entre indicadores</div>
+  <div class="fl"><label>X:</label><select id="cx">${keys.map(k=>`<option value="${k}">${k}</option>`).join('')}</select>
+  <label>Y:</label><select id="cy">${keys.map((k,i)=>`<option value="${k}"${i===1?' selected':''}>${k}</option>`).join('')}</select>
+  <button class="btn" onclick="dCorr()">Actualizar</button></div>
+  <div class="cw"><canvas id="cc"></canvas></div></div>`;
+  h+=`<div class="cd"><div class="ct">Hallazgos de correlación</div>
+  <div class="al ay"><b>SOb01 ↔ CUPN01:</b> UMFs con mayor cobertura de peso/talla muestran mayor PrevenIMSS — ambos dependen del flujo de consultas de primer nivel.</div>
+  <div class="al ay"><b>DM01 ↔ EH01:</b> Detecciones de diabetes e hipertensión avanzan en paralelo — misma población objetivo y proceso.</div>
+  <div class="al ar"><b>CAMA01 independiente:</b> Mastografía no correlaciona con los demás. Depende de infraestructura, no de productividad médica.</div>
+  <div class="al ay"><b>CUPN05 → coberturas:</b> UMFs con más consultas/hora (CUPN05) tienden a tener mejores coberturas en DM01, EH01, CACU01.</div></div>`;
+  return h;
+}
+
+function dCorr(){
+  const xK=document.getElementById('cx')?.value||ks()[0];
+  const yK=document.getElementById('cy')?.value||ks()[1];
+  const xD=S.data[xK],yD=S.data[yK];if(!xD||!yD)return;
+  const pts=[];
+  xD.umfs.forEach(xu=>{
+    const yu=yD.umfs.find(y=>y.nombre===xu.nombre);
+    const xv=getVal(xu),yv=yu?getVal(yu):null;
+    if(xv&&yv)pts.push({x:xv,y:yv,label:xu.nombre});
+  });
+  if(charts.cc)charts.cc.destroy();
+  charts.cc=new Chart(document.getElementById('cc'),{type:'scatter',data:{datasets:[{data:pts,backgroundColor:'rgba(0,99,65,.6)',pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw.label+': ('+nm(c.raw.x)+', '+nm(c.raw.y)+')'}}},scales:{x:{title:{display:true,text:xK}},y:{title:{display:true,text:yK}}}}});
+}
+
+// ═══ EMAIL ═══
+function rEmail(){
+  let alerts=[];
+  ks().forEach(k=>{const m=gm(k);S.data[k].umfs.forEach(u=>{const v=getVal(u);if(v!==null&&v<m*.75)alerts.push({ind:k,umf:u.nombre,val:v,meta:m})})});
+  alerts.sort((a,b)=>a.val/a.meta-b.val/b.meta);
+  const today=new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
+  let groups={};alerts.forEach(a=>{if(!groups[a.umf])groups[a.umf]=[];groups[a.umf].push(a)});
+  
+  let email=`ASUNTO: Hallazgos críticos — Indicadores Médicos MMIM 2026\n\nToluca, Estado de México, a ${today}\n\nC. Director(a) de la Unidad de Medicina Familiar\nOOAD México Poniente\nP R E S E N T E\n\nPor medio del presente, la Coordinación de Información y Análisis Estratégico hace de su conocimiento los resultados del seguimiento a los indicadores del Modelo de Monitoreo de Indicadores Médicos (MMIM) correspondientes al primer trimestre 2026.\n\nSe identificaron ${alerts.length} indicadores-UMF fuera de meta que requieren atención inmediata:\n\n`;
+  Object.entries(groups).slice(0,12).forEach(([umf,items])=>{email+=umf+':\n';items.forEach(a=>email+=`  • ${a.ind}: ${nm(a.val)}% (meta: ${a.meta}%)\n`);email+='\n'});
+  email+=`Se solicita implementar las acciones correctivas correspondientes e informar avances en un plazo no mayor a 15 días hábiles.\n\nSin otro particular, quedo a sus órdenes.\n\nAtentamente,\nCoordinación de Información y Análisis Estratégico\nOOAD México Poniente`;
+  
+  return`<div class="cd"><div class="ct">Comunicado ejecutivo<span class="tg">LIVE</span></div>
+  <p style="font-size:10px;color:var(--muted);margin-bottom:10px">Generado con los ${ks().length} indicadores en tiempo real.</p>
+  <div class="eb" id="em">${email}</div>
+  <div style="margin-top:10px"><button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('em').innerText).then(()=>alert('Copiado'))">Copiar al portapapeles</button></div></div>`;
+}
+
+init();
+</script>
+</body>
+</html>
