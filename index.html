@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIAE Live — Análisis Estratégico IMSS 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f3ee;--card:#fff;--border:#ddd9ce;--text:#1a1917;--muted:#7a7870;--accent:#006341;--accent2:#004d32;--red:#c0392b;--yellow:#d4a017;--green:#006341;--blue:#1d4ed8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text)}
+.top{background:linear-gradient(135deg,#003d2b,#006341);color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.top h1{font-size:16px;font-weight:700}.top .sub{font-size:11px;opacity:.6;margin-top:2px}
+.top .r{display:flex;align-items:center;gap:12px}
+.dot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:p 2s infinite}.dot.off{background:#ef4444;animation:none}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.4}}
+.st{display:flex;align-items:center;gap:6px;font-size:11px;opacity:.8}
+.br{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:5px 12px;border-radius:6px;font-family:inherit;font-size:11px;cursor:pointer}
+.nv{display:flex;gap:3px;padding:6px 24px;background:#fff;border-bottom:1px solid var(--border);overflow-x:auto}
+.nv button{padding:6px 12px;border:none;background:none;font-family:inherit;font-size:11px;cursor:pointer;border-radius:6px;color:var(--muted);white-space:nowrap}
+.nv button.a{background:var(--accent2);color:#fff;font-weight:500}
+.nv button:hover:not(.a){background:#edebe4}
+.mn{max-width:1280px;margin:0 auto;padding:16px 24px}
+.g{display:grid;gap:10px;margin-bottom:14px}.g4{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}.g2{grid-template-columns:1fr 1fr}
+@media(max-width:800px){.g2{grid-template-columns:1fr}}
+.mc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
+.mc .lb{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.mc .vl{font-size:20px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.mc .sm{font-size:10px;color:var(--muted);margin-top:2px}
+.vl.gr{color:var(--green)}.vl.yl{color:var(--yellow)}.vl.rd{color:var(--red)}
+.cd{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px}
+.ct{font-size:12px;font-weight:700;margin-bottom:10px}
+.cw{position:relative;width:100%;height:280px}
+.tw{max-height:500px;overflow-y:auto;border:1px solid var(--border);border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;padding:6px 7px;font-weight:600;font-size:9px;color:var(--muted);border-bottom:2px solid var(--border);text-transform:uppercase;letter-spacing:.3px;position:sticky;top:0;background:#fff;z-index:1}
+td{padding:5px 7px;border-bottom:1px solid #f0efe8}
+tr:hover td{background:#fafaf6}
+.pl{display:inline-block;padding:2px 8px;border-radius:16px;font-size:9px;font-weight:600}
+.pg{background:#dcfce7;color:#14532d}.py{background:#fef9c3;color:#854d0e}.pr{background:#fee2e2;color:#7f1d1d}
+.fl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.fl select{font-family:inherit;font-size:11px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:#fff;max-width:350px}
+.fl label{font-size:10px;color:var(--muted);font-weight:500}
+.al{padding:8px 12px;border-radius:6px;font-size:11px;margin-bottom:5px;border-left:3px solid;line-height:1.5}
+.ar{background:#fff5f5;border-color:var(--red)}.ay{background:#fffbeb;border-color:var(--yellow)}
+.al b{font-weight:600}
+.btn{padding:6px 12px;border:1px solid var(--accent);background:var(--accent);color:#fff;font-family:inherit;font-size:11px;cursor:pointer;border-radius:6px;font-weight:500}
+.btn:hover{background:var(--accent2)}
+.eb{background:#f8f7f3;border:1px solid var(--border);border-radius:8px;padding:14px;font-size:11px;line-height:1.7;white-space:pre-wrap;max-height:400px;overflow-y:auto;font-family:'JetBrains Mono',monospace}
+.ld{text-align:center;padding:50px;color:var(--muted);font-size:13px}
+.sp{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:s .8s linear infinite;margin:0 auto 10px}
+@keyframes s{to{transform:rotate(360deg)}}
+.cp{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px;max-width:560px;margin:30px auto}
+.cp h2{font-size:15px;margin-bottom:14px}
+.cp label{display:block;font-size:11px;font-weight:500;margin:10px 0 3px;color:var(--muted)}
+.cp input{width:100%;padding:8px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:12px}
+.cp .nt{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4}
+.cp .btn{margin-top:16px;width:100%;padding:10px;font-size:12px}
+.tg{display:inline-block;background:#e8f5e9;color:var(--green);padding:1px 7px;border-radius:4px;font-size:9px;font-weight:600;margin-left:6px}
+.pbar{width:100%;height:6px;background:var(--border);border-radius:3px;margin:8px 0}
+.pbar .fill{height:100%;border-radius:3px;background:var(--accent);transition:width .3s}
+.proc-hdr{padding:6px 8px;font-weight:700;font-size:10px;border-left:3px solid;background:#fafaf6}
+</style>
+</head>
+<body>
+<div class="top">
+<div><h1>CIAE Live — Coordinación de Información y Análisis Estratégico</h1><div class="sub">OOAD México Poniente · Indicadores MMIM 2026 · En vivo</div></div>
+<div class="r"><div class="st"><div class="dot" id="sDot"></div><span id="sTxt">Conectando...</span></div><button class="br" onclick="refreshData()">↻ Actualizar</button></div>
+</div>
+<div class="nv" id="nav"></div>
+<div class="mn" id="app"></div>
+<script>
+// ═══ CONFIG ═══
+const DC={
+  sheetMMIM:'1EH8inIxhnvdkzPK7UedJt8zCSnhGvl8z1aBCyKBfY4M',
+  sheetEval:'1PDVinhh3S-f6cDfSxf-VqZAFVy1Yqii9m0NlfIOxmGU',
+  apiKey:''
+};
+function gc(){try{const s=localStorage.getItem('ciae3');return s?{...DC,...JSON.parse(s)}:{...DC}}catch(e){return{...DC}}}
+function sc(c){localStorage.setItem('ciae3',JSON.stringify(c))}
+function extractId(input){const m=input.match(/\/d\/([a-zA-Z0-9_-]+)/);return m?m[1]:input.trim()}
+
+// ═══ PROCESS STRUCTURE (per MMIM manual) ═══
+const PROC=[
+  {id:'DM',name:'Diabetes',color:'#1d4ed8',group:'PSE'},
+  {id:'EH',name:'Enfermedades hipertensivas',color:'#c0392b',group:'PSE'},
+  {id:'CAMA',name:'Cáncer de mama',color:'#db2777',group:'PSE'},
+  {id:'CACU',name:'Cáncer cérvico uterino',color:'#7c3aed',group:'PSE'},
+  {id:'Materna',name:'Atención materna',color:'#0891b2',group:'PSE'},
+  {id:'Neonatal',name:'Atención neonatal',color:'#0e7490',group:'PSE'},
+  {id:'SOb',name:'Sobrepeso-obesidad',color:'#d97706',group:'PSE'},
+  {id:'CUPN',name:'Primer nivel',color:'#006341',group:'CN'},
+  {id:'CUSN',name:'Segundo nivel',color:'#065f46',group:'CN'},
+  {id:'HOSP',name:'Hospitalización',color:'#374151',group:'CN'},
+  {id:'IAAS',name:'Infecciones (IAAS)',color:'#6b7280',group:'CN'},
+  {id:'CE',name:'Enfermería',color:'#059669',group:'CN'},
+  {id:'CVE',name:'Vigilancia epidemiológica',color:'#7c2d12',group:'CN'},
+  {id:'CES',name:'Educación en salud',color:'#92400e',group:'CN'},
+  {id:'CIS',name:'Investigación en salud',color:'#4338ca',group:'CN'}
+];
+
+// ═══ ALL TABS — from both sheets ═══
+// Source: 'eval' = Evaluación de Desempeño, 'mmim' = Tablero MMIM
+const ALL_TABS=[
+  // DM
+  {tab:'DM 01',proc:'DM',src:'eval'},{tab:'DM 02',proc:'DM',src:'eval'},{tab:'DM 03',proc:'DM',src:'eval'},
+  {tab:'DM 04',proc:'DM',src:'eval'},{tab:'DM 05',proc:'DM',src:'eval'},{tab:'DM 06',proc:'DM',src:'eval'},
+  // EH
+  {tab:'EH 01',proc:'EH',src:'eval'},{tab:'EH 02',proc:'EH',src:'eval'},
+  {tab:'EH 03',proc:'EH',src:'eval'},{tab:'EH 04',proc:'EH',src:'eval'},
+  // CAMA
+  {tab:'CAMA 01',proc:'CAMA',src:'eval'},{tab:'CAMA 02',proc:'CAMA',src:'eval'},
+  {tab:'CAMA 03',proc:'CAMA',src:'eval'},{tab:'CAMA 04',proc:'CAMA',src:'eval'},
+  // CACU
+  {tab:'CACU 01',proc:'CACU',src:'eval'},{tab:'CACU 02',proc:'CACU',src:'eval'},
+  {tab:'CACU 03',proc:'CACU',src:'eval'},{tab:'CACU 04',proc:'CACU',src:'eval'},
+  // Materna
+  {tab:'Materna 01',proc:'Materna',src:'eval'},{tab:'Materna 02',proc:'Materna',src:'eval'},
+  {tab:'Materna 03',proc:'Materna',src:'eval'},{tab:'Materna 04',proc:'Materna',src:'eval'},
+  {tab:'Materna 05',proc:'Materna',src:'eval'},
+  // Neonatal
+  {tab:'Neonatal 01',proc:'Neonatal',src:'eval'},{tab:'Neonatal 02',proc:'Neonatal',src:'eval'},
+  {tab:'Neonatal 03',proc:'Neonatal',src:'eval'},{tab:'Neonatal 04',proc:'Neonatal',src:'eval'},
+  {tab:'Neonatal 05',proc:'Neonatal',src:'eval'},{tab:'Neonatal 06',proc:'Neonatal',src:'eval'},
+  // SOb
+  {tab:'SOb 01',proc:'SOb',src:'eval'},{tab:'SOb 02',proc:'SOb',src:'eval'},{tab:'SOb 03',proc:'SOb',src:'eval'},
+  // CUPN
+  {tab:'CUPN 01',proc:'CUPN',src:'eval'},{tab:'CUPN 03',proc:'CUPN',src:'eval'},
+  {tab:'CUPN 04',proc:'CUPN',src:'eval'},{tab:'CUPN 07',proc:'CUPN',src:'eval'},
+  // CUSN
+  {tab:'CUSN 01',proc:'CUSN',src:'eval'},{tab:'CUSN 02',proc:'CUSN',src:'eval'},
+  // HOSP
+  {tab:'HOSP 01',proc:'HOSP',src:'eval'},{tab:'HOSP 02',proc:'HOSP',src:'eval'},
+  {tab:'HOSP 03',proc:'HOSP',src:'eval'},{tab:'HOSP 04',proc:'HOSP',src:'eval'},
+  {tab:'HOSP 05',proc:'HOSP',src:'eval'},{tab:'HOSP 06',proc:'HOSP',src:'eval'},
+  {tab:'HOSP 07',proc:'HOSP',src:'eval'},{tab:'HOSP 08',proc:'HOSP',src:'eval'},
+  {tab:'HOSP 09',proc:'HOSP',src:'eval'},{tab:'HOSP 10',proc:'HOSP',src:'eval'},
+  // IAAS
+  {tab:'IAAS 01',proc:'IAAS',src:'eval'},{tab:'IAAS 02',proc:'IAAS',src:'eval'},
+  // CE
+  {tab:'CE 01',proc:'CE',src:'eval'},{tab:'CE 02',proc:'CE',src:'eval'},
+  // CVE
+  {tab:'CVE 01',proc:'CVE',src:'eval'},
+  // CES
+  {tab:'CES 04',proc:'CES',src:'eval'},
+  // CIS
+  {tab:'CIS 01',proc:'CIS',src:'eval'},{tab:'CIS 02',proc:'CIS',src:'eval'},
+  {tab:'CIS 05',proc:'CIS',src:'eval'},{tab:'CIS 07',proc:'CIS',src:'eval'}
+];
+
+// Also load weekly data from MMIM for the 6 weekly indicators
+const MMIM_WEEKLY=[
+  {tab:'DM01',proc:'DM',evalTab:'DM 01'},{tab:'EH01',proc:'EH',evalTab:'EH 01'},
+  {tab:'CAMA 01',proc:'CAMA',evalTab:'CAMA 01'},{tab:'CACU 01',proc:'CACU',evalTab:'CACU 01'},
+  {tab:'SOB01',proc:'SOb',evalTab:'SOb 01'},{tab:'CUPN 01',proc:'CUPN',evalTab:'CUPN 01'}
+];
+
+// ═══ FETCH ═══
+async function fetchSheet(sid,tab){
+  const url='https://docs.google.com/spreadsheets/d/'+sid+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(tab);
+  try{
+    const r=await fetch(url);const t=await r.text();
+    const m=t.match(/google\.visualization\.Query\.setResponse\((.+)\);?/);
+    if(!m)throw new Error('No data');
+    const j=JSON.parse(m[1]);
+    if(j.status==='error')throw new Error(j.errors?.[0]?.message||'Error');
+    return{cols:j.table.cols.map(c=>c.label||''),rows:j.table.rows.map(r=>r.c.map(c=>c?c.v:null))};
+  }catch(e){return null}
+}
+
+// ═══ GENERIC PARSER ═══
+// The Eval sheet has a consistent structure:
+// Row 11 (idx 11): headers with "Clave presupuestal", "Unidad", months...
+// Row 12: OOAD México Poniente
+// Row 13+: UMFs with clave in col 0, name in col 1
+// The parser adapts to find the last column with numeric data
+function parseGeneric(data, tabName){
+  if(!data||!data.rows||data.rows.length<13)return null;
+  const R=data.rows;
+
+  // Find indicator name (rows 1-3)
+  let name=tabName;
+  for(let r=0;r<4;r++){for(let c=0;c<5;c++){
+    const v=String(R[r]?.[c]||'').trim();
+    if(v.length>15&&(v.includes('-')||v.includes('Cobertura')||v.includes('Porcentaje')||v.includes('Tasa')||v.includes('Promedio')||v.includes('Índice'))){name=v;break}
+  };if(name!==tabName)break}
+
+  // Find header row (look for "Clave presupuestal" or "Unidad")
+  let hdrRow=-1;
+  for(let r=8;r<22;r++){
+    if(!R[r])continue;
+    for(let c=0;c<6;c++){
+      const v=String(R[r]?.[c]||'').trim().toLowerCase();
+      if(v==='clave presupuestal'||v==='unidad'){hdrRow=r;break}
+    };if(hdrRow>=0)break;
+  }
+  if(hdrRow<0)hdrRow=11;
+
+  // Find columns with month names or "Oficial"
+  const hdr=R[hdrRow]||[];
+  const subHdr=R[hdrRow+1]||[];
+  let lastDataCol=-1;
+
+  // Find the last column that has numeric data in rows below header
+  for(let c=hdr.length-1;c>=2;c--){
+    for(let r=hdrRow+2;r<Math.min(hdrRow+8,R.length);r++){
+      const v=R[r]?.[c];
+      if(v!==null&&typeof v==='number'&&v!==0){lastDataCol=c;break}
+    };if(lastDataCol>=0)break;
+  }
+  if(lastDataCol<0)lastDataCol=4;
+
+  // Extract UMFs and OOAD
+  const umfs=[];let ooad=null;
+  for(let r=hdrRow+1;r<R.length;r++){
+    const row=R[r];if(!row)continue;
+    const c0=String(row[0]||'').trim();
+    const c1=String(row[1]||'').trim();
+    if(!c0&&!c1)continue;
+    const nm=c1||c0;
+    if(nm.length<3)continue;
+
+    // Get the value from lastDataCol
+    const val=typeof row[lastDataCol]==='number'?Math.round(row[lastDataCol]*100)/100:null;
+
+    // Historical: try cols 2-8 for years
+    const hist={};
+    for(let c=2;c<=8;c++){
+      const yr=R[hdrRow]?.[c];
+      const v=row[c];
+      if(yr&&typeof v==='number'){
+        const yrNum=typeof yr==='number'?yr:parseInt(String(yr));
+        if(yrNum>=2018&&yrNum<=2025)hist[yrNum]=Math.round(v*100)/100;
+      }
+    }
+
+    // Monthly values: scan for month columns
+    const monthly={};
+    const months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    for(let c=2;c<hdr.length;c++){
+      const h=String(hdr[c]||'').trim();
+      const mo=months.find(m=>h.toLowerCase().includes(m.toLowerCase()));
+      if(mo&&typeof row[c]==='number'){
+        if(!monthly[mo])monthly[mo]=Math.round(row[c]*100)/100;
+      }
+    }
+
+    const entry={nombre:nm,clave:c0,val,hist,monthly};
+
+    if(nm.toLowerCase().includes('ooad')||nm.toLowerCase().includes('poniente')||
+       nm.toLowerCase().includes('méxico poniente')||c0==='16')
+      ooad=entry;
+    else if(nm.match(/^(UMF|HGZ|HGR|UMFH|HGO)/i)||/^\d{12}$/.test(c0)||
+            (nm.length>4&&!nm.toLowerCase().includes('total')&&!nm.toLowerCase().includes('nacional')))
+      umfs.push(entry);
+  }
+
+  return{name,tab:tabName,ooad,umfs,val_col:lastDataCol};
+}
+
+// ═══ STATE ═══
+let S={loaded:false,loading:false,error:null,lastUpdate:null,data:{},progress:0,total:0};
+let cv='config',si='',su='all',charts={};
+
+// ═══ LOAD ═══
+async function loadAllData(){
+  const cfg=gc();S.loading=true;S.error=null;S.data={};S.progress=0;
+  S.total=ALL_TABS.length;
+  render();
+
+  try{
+    const evalId=cfg.sheetEval;
+    const mmimId=cfg.sheetMMIM;
+    let ok=0;
+
+    // Load in batches of 8 to avoid rate limiting
+    for(let i=0;i<ALL_TABS.length;i+=8){
+      const batch=ALL_TABS.slice(i,i+8);
+      const results=await Promise.allSettled(
+        batch.map(t=>fetchSheet(evalId,t.tab).then(d=>({...t,data:d})))
+      );
+      results.forEach(r=>{
+        if(r.status==='fulfilled'&&r.value.data){
+          const v=r.value;
+          const parsed=parseGeneric(v.data,v.tab);
+          if(parsed&&parsed.umfs.length>0){
+            parsed.proc=v.proc;parsed.src=v.src;
+            S.data[v.tab]=parsed;ok++;
+          }
+        }
+      });
+      S.progress=Math.min(i+8,ALL_TABS.length);
+      document.getElementById('sTxt').textContent='Cargando... '+S.progress+'/'+S.total;
+      // Small delay between batches
+      if(i+8<ALL_TABS.length)await new Promise(r=>setTimeout(r,300));
+    }
+
+    if(ok===0)throw new Error('No se pudieron leer los Google Sheets. Verifica que estén compartidos como "Cualquier persona con el enlace puede ver".');
+    S.loaded=true;S.lastUpdate=new Date();
+    si=Object.keys(S.data)[0];
+    document.getElementById('sDot').classList.remove('off');
+    document.getElementById('sTxt').textContent=ok+' indicadores · '+new Date().toLocaleTimeString('es-MX');
+    cv='dashboard';
+  }catch(e){
+    S.error=e.message;
+    document.getElementById('sDot').classList.add('off');
+    document.getElementById('sTxt').textContent='Error';
+  }
+  S.loading=false;render();
+}
+async function refreshData(){await loadAllData()}
+
+// ═══ RENDER ═══
+const VW=[{id:'dashboard',l:'Dashboard'},{id:'semaforo',l:'Semáforo'},{id:'tendencias',l:'Tendencias'},{id:'proyecciones',l:'Proyecciones'},{id:'correlacion',l:'Correlación'},{id:'email',l:'Email'},{id:'config',l:'⚙'}];
+
+function init(){
+  const nv=document.getElementById('nav');
+  VW.forEach(v=>{const b=document.createElement('button');b.textContent=v.l;b.onclick=()=>{cv=v.id;render()};b.dataset.v=v.id;nv.appendChild(b)});
+  const cfg=gc();if(cfg.sheetEval)loadAllData();else render();
+}
+
+function render(){
+  document.querySelectorAll('.nv button').forEach(b=>b.classList.toggle('a',b.dataset.v===cv));
+  Object.values(charts).forEach(c=>{try{c.destroy()}catch(e){}});charts={};
+  const app=document.getElementById('app');
+  if(cv==='config'){app.innerHTML=rConfig();return}
+  if(S.loading){
+    const pct=S.total>0?Math.round(S.progress/S.total*100):0;
+    app.innerHTML='<div class="ld"><div class="sp"></div>Conectando con Google Sheets...<div class="pbar"><div class="fill" style="width:'+pct+'%"></div></div><div style="font-size:11px;margin-top:4px">'+S.progress+'/'+S.total+' hojas</div></div>';
+    return;
+  }
+  if(S.error){app.innerHTML='<div class="ld">'+S.error+'<br><br><button class="btn" onclick="cv=\'config\';render()">Configurar</button></div>';return}
+  if(!S.loaded){app.innerHTML='<div class="ld"><button class="btn" onclick="cv=\'config\';render()">Configurar Google Sheets</button></div>';return}
+  switch(cv){
+    case'dashboard':app.innerHTML=rDash();break;
+    case'semaforo':app.innerHTML=rSem();break;
+    case'tendencias':app.innerHTML=rTrend();setTimeout(dTrend,80);break;
+    case'proyecciones':app.innerHTML=rProj();setTimeout(dProj,80);break;
+    case'correlacion':app.innerHTML=rCorr();setTimeout(dCorr,80);break;
+    case'email':app.innerHTML=rEmail();break;
+  }
+}
+
+// ═══ HELPERS ═══
+function ks(){return Object.keys(S.data)}
+function gs(v,m){if(v===null||v===undefined||isNaN(v))return'u';return v>=m?'g':v>=m*.75?'y':'r'}
+function pl(s){const m={g:['pg','Verde'],y:['py','Amarillo'],r:['pr','Rojo'],u:['pr','S/D']};const[c,l]=m[s]||m.u;return'<span class="pl '+c+'">'+l+'</span>'}
+function nm(v,d){d=d||2;return v!==null&&v!==undefined&&!isNaN(v)?Number(v).toFixed(d):'-'}
+function getProc(k){return S.data[k]?.proc||''}
+function groupedOpts(){
+  let o='';
+  PROC.forEach(p=>{
+    const inds=ks().filter(k=>getProc(k)===p.id);
+    if(!inds.length)return;
+    o+='<optgroup label="'+p.name+' ('+inds.length+')">';
+    inds.forEach(k=>{o+='<option value="'+k+'"'+(k===si?' selected':'')+'>'+k+'</option>'});
+    o+='</optgroup>';
+  });
+  return o;
+}
+
+// ═══ CONFIG ═══
+function rConfig(){
+  const c=gc();
+  return '<div class="cp"><h2>Configuración</h2>'+
+  '<p style="font-size:11px;color:var(--muted);margin-bottom:14px">Conecta tus 2 fuentes de datos. Esta app reemplaza al Resumen MMIM.</p>'+
+  '<label>Tablero MMIM 2026 (datos semanales)</label><input id="c1" value="'+c.sheetMMIM+'">'+
+  '<div class="nt">URL o ID del Google Sheet. Contiene datos semanales de los 6 indicadores principales.</div>'+
+  '<label>Evaluación de Desempeño (todos los indicadores)</label><input id="c2" value="'+c.sheetEval+'">'+
+  '<div class="nt">URL o ID. Contiene los ~60 indicadores: DM, EH, CAMA, CACU, Materna, Neonatal, SOb, CUPN, CUSN, HOSP, IAAS, CE, CVE, CES, CIS.</div>'+
+  '<label>Google API Key (opcional)</label><input id="c3" value="'+(c.apiKey||'')+'" placeholder="AIza...">'+
+  '<button class="btn" onclick="sc({sheetMMIM:extractId(document.getElementById(\'c1\').value),sheetEval:extractId(document.getElementById(\'c2\').value),apiKey:document.getElementById(\'c3\').value.trim()});loadAllData()">Guardar y conectar</button>'+
+  (S.loaded?'<div style="margin-top:10px;font-size:11px;color:var(--green)">Conectado: '+ks().length+' indicadores</div>':'')+'</div>';
+}
+
+// ═══ DASHBOARD ═══
+function rDash(){
+  let tG=0,tY=0,tR=0,alerts=[];
+  const procStats={};
+  ks().forEach(k=>{
+    const d=S.data[k],p=d.proc||'';
+    if(!procStats[p])procStats[p]={g:0,y:0,r:0,total:0};
+    const oVal=d.ooad?d.ooad.val:null;
+    // Use OOAD value as the indicator-level status
+    if(oVal!==null){
+      procStats[p].total++;
+      // Simple threshold: we don't have all metas, so use value presence
+      tG++;procStats[p].g++;
+    }
+    // Count UMF-level alerts (missing or zero values)
+    d.umfs.forEach(u=>{
+      if(u.val===null||u.val===0){tR++;
+        if(u.val===0)alerts.push({ind:k,umf:u.nombre,val:0,proc:p});
+      }else tG++;
+    });
+  });
+
+  let h='<div class="g g4">';
+  h+='<div class="mc"><div class="lb">Indicadores cargados</div><div class="vl">'+ks().length+'</div><div class="sm">de ~60 del MMIM<span class="tg">LIVE</span></div></div>';
+  
+  // Count by group
+  const pse=ks().filter(k=>PROC.find(p=>p.id===getProc(k))?.group==='PSE').length;
+  const cn=ks().filter(k=>PROC.find(p=>p.id===getProc(k))?.group==='CN').length;
+  h+='<div class="mc"><div class="lb">Proceso Salud-Enfermedad</div><div class="vl">'+pse+'</div><div class="sm">DM, EH, CAMA, CACU, Mat, Neo, SOb</div></div>';
+  h+='<div class="mc"><div class="lb">Coordinaciones Normativas</div><div class="vl">'+cn+'</div><div class="sm">CUPN, CUSN, HOSP, IAAS, CE, CVE, CES, CIS</div></div>';
+  h+='<div class="mc"><div class="lb">Procesos activos</div><div class="vl">'+new Set(ks().map(k=>getProc(k))).size+'</div><div class="sm">de 15 del MMIM</div></div>';
+  h+='</div>';
+
+  // Table grouped by process
+  h+='<div class="cd"><div class="ct">Todos los indicadores por proceso MMIM</div><div class="tw"><table><thead><tr><th style="width:25%">Proceso</th><th style="width:20%">Indicador</th><th>OOAD</th><th>UMFs</th><th>Con dato</th></tr></thead><tbody>';
+  
+  PROC.forEach(p=>{
+    const inds=ks().filter(k=>getProc(k)===p.id);
+    if(!inds.length)return;
+    // Process header
+    h+='<tr><td colspan="5" class="proc-hdr" style="border-color:'+p.color+'">'+p.name+' ('+inds.length+' indicadores)</td></tr>';
+    inds.forEach(k=>{
+      const d=S.data[k];
+      const oVal=d.ooad?nm(d.ooad.val):'-';
+      const withData=d.umfs.filter(u=>u.val!==null&&u.val!==0).length;
+      const total=d.umfs.length;
+      const pct=total>0?Math.round(withData/total*100):0;
+      const pctColor=pct>=80?'var(--green)':pct>=50?'var(--yellow)':'var(--red)';
+      h+='<tr><td></td><td><b>'+k+'</b></td><td>'+oVal+'</td><td>'+total+'</td>';
+      h+='<td style="color:'+pctColor+'"><b>'+withData+'/'+total+'</b> ('+pct+'%)</td></tr>';
+    });
+  });
+  h+='</tbody></table></div></div>';
+
+  // Alerts
+  if(alerts.length>0){
+    h+='<div class="cd"><div class="ct">UMFs con valor 0 (requieren atención)</div>';
+    alerts.slice(0,15).forEach(a=>{h+='<div class="al ar"><b>'+a.ind+'</b> — '+a.umf+'</div>'});
+    if(alerts.length>15)h+='<div style="font-size:10px;color:var(--muted);margin-top:4px">... y '+(alerts.length-15)+' más</div>';
+    h+='</div>';
+  }
+  return h;
+}
+
+// ═══ SEMÁFORO ═══
+function rSem(){
+  const d=S.data[si];if(!d)return'<div class="ld">Sin datos</div>';
+  let h='<div class="fl"><label>Indicador:</label><select onchange="si=this.value;su=\'all\';render()">'+groupedOpts()+'</select>';
+  h+='<label>UMF:</label><select onchange="su=this.value;render()"><option value="all">Todas ('+d.umfs.length+')</option>';
+  d.umfs.forEach(u=>{h+='<option value="'+u.nombre+'"'+(u.nombre===su?' selected':'')+'>'+u.nombre+'</option>'});
+  h+='</select></div>';
+
+  h+='<div class="cd"><div class="ct">'+d.name+'</div><div class="tw"><table><thead><tr><th>Clave</th><th>UMF</th>';
+  // Show monthly columns if available
+  const sampleU=d.umfs[0];
+  const moKeys=sampleU?Object.keys(sampleU.monthly||{}):[]; 
+  const histKeys=sampleU?Object.keys(sampleU.hist||{}).sort():[];
+  if(histKeys.length>0)histKeys.slice(-4).forEach(y=>{h+='<th>'+y+'</th>'});
+  if(moKeys.length>0)moKeys.slice(0,4).forEach(m=>{h+='<th>'+m.substring(0,3)+'</th>'});
+  h+='<th>Último</th></tr></thead><tbody>';
+
+  const umfs=su==='all'?d.umfs:d.umfs.filter(u=>u.nombre===su);
+  umfs.forEach(u=>{
+    h+='<tr><td style="font-size:9px;color:var(--muted)">'+u.clave+'</td><td><b>'+u.nombre+'</b></td>';
+    if(histKeys.length>0)histKeys.slice(-4).forEach(y=>{h+='<td>'+nm(u.hist[y])+'</td>'});
+    if(moKeys.length>0)moKeys.slice(0,4).forEach(m=>{h+='<td>'+nm(u.monthly?.[m])+'</td>'});
+    h+='<td><b>'+nm(u.val)+'</b></td></tr>';
+  });
+  h+='</tbody></table></div></div>';
+  return h;
+}
+
+// ═══ TENDENCIAS ═══
+function rTrend(){
+  let h='<div class="fl"><label>Indicador:</label><select onchange="si=this.value;render()">'+groupedOpts()+'</select></div>';
+  h+='<div class="cd"><div class="ct">Valores por UMF — '+si+'</div><div class="cw"><canvas id="c1"></canvas></div></div>';
+  return h;
+}
+function dTrend(){
+  const d=S.data[si];if(!d)return;
+  const colors=['#006341','#1d4ed8','#c0392b','#d4a017','#7c3aed','#0891b2','#db2777','#374151'];
+  // Use monthly data if available, otherwise show bar chart of current values
+  const moKeys=d.umfs[0]?Object.keys(d.umfs[0].monthly||{}):[];
+  const top=d.umfs.slice(0,8);
+
+  if(moKeys.length>=2){
+    const ds=top.map((u,i)=>({label:u.nombre,data:moKeys.map(m=>u.monthly?.[m]||null),borderColor:colors[i%8],backgroundColor:'transparent',tension:.3,pointRadius:2,borderWidth:2}));
+    charts.c1=new Chart(document.getElementById('c1'),{type:'line',data:{labels:moKeys,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:9}}}},scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}});
+  }else{
+    // Bar chart of current values
+    const labels=top.map(u=>u.nombre.replace(/UMF\s*/i,''));
+    const vals=top.map(u=>u.val||0);
+    charts.c1=new Chart(document.getElementById('c1'),{type:'bar',data:{labels,datasets:[{label:si,data:vals,backgroundColor:colors.slice(0,top.length)}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}});
+  }
+}
+
+// ═══ PROYECCIONES ═══
+function rProj(){
+  let h='<div class="fl"><label>Indicador:</label><select onchange="si=this.value;render()">'+groupedOpts()+'</select></div>';
+  const d=S.data[si];if(!d)return h;
+  h+='<div class="cd"><div class="ct">Comparativo UMFs — '+si+'</div><div class="cw"><canvas id="cp"></canvas></div></div>';
+  h+='<div class="cd"><div class="ct">Ranking de UMFs</div><div class="tw"><table><thead><tr><th>#</th><th>UMF</th><th>Valor</th><th>vs OOAD</th></tr></thead><tbody>';
+  
+  const oVal=d.ooad?d.ooad.val:null;
+  const sorted=[...d.umfs].filter(u=>u.val!==null).sort((a,b)=>b.val-a.val);
+  sorted.forEach((u,i)=>{
+    const diff=oVal!==null?u.val-oVal:null;
+    const diffColor=diff!==null?(diff>=0?'var(--green)':'var(--red)'):'var(--muted)';
+    const diffStr=diff!==null?((diff>=0?'+':'')+nm(diff,1)):'-';
+    h+='<tr><td>'+(i+1)+'</td><td><b>'+u.nombre+'</b></td><td>'+nm(u.val)+'</td>';
+    h+='<td style="color:'+diffColor+'">'+diffStr+'</td></tr>';
+  });
+  h+='</tbody></table></div></div>';
+  return h;
+}
+function dProj(){
+  const d=S.data[si];if(!d)return;
+  const sorted=[...d.umfs].filter(u=>u.val!==null).sort((a,b)=>b.val-a.val).slice(0,15);
+  const labels=sorted.map(u=>u.nombre.replace(/UMF\s*/i,'').substring(0,12));
+  const vals=sorted.map(u=>u.val);
+  const oVal=d.ooad?d.ooad.val:null;
+  const ds=[{label:si,data:vals,backgroundColor:'#006341'}];
+  if(oVal!==null)ds.push({label:'OOAD',data:Array(vals.length).fill(oVal),type:'line',borderColor:'#c0392b',borderDash:[4,4],pointRadius:0,borderWidth:2});
+  charts.cp=new Chart(document.getElementById('cp'),{type:'bar',data:{labels,datasets:ds},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:9}}}},scales:{x:{beginAtZero:true},y:{ticks:{font:{size:9}}}}}});
+}
+
+// ═══ CORRELACIÓN ═══
+function rCorr(){
+  let h='<div class="cd"><div class="ct">Correlación entre indicadores</div>';
+  h+='<div class="fl"><label>X:</label><select id="cx">'+groupedOpts()+'</select>';
+  h+='<label>Y:</label><select id="cy">'+groupedOpts().replace('selected','')+'</select>';
+  h+='<button class="btn" onclick="dCorr()">Actualizar</button></div>';
+  h+='<div class="cw"><canvas id="cc"></canvas></div></div>';
+  return h;
+}
+function dCorr(){
+  const xK=document.getElementById('cx')?.value||ks()[0];
+  const yK=document.getElementById('cy')?.value||ks()[1];
+  const xD=S.data[xK],yD=S.data[yK];if(!xD||!yD)return;
+  const pts=[];
+  xD.umfs.forEach(xu=>{
+    const yu=yD.umfs.find(y=>y.nombre===xu.nombre||y.clave===xu.clave);
+    if(yu&&xu.val&&yu.val)pts.push({x:xu.val,y:yu.val,label:xu.nombre});
+  });
+  if(charts.cc)charts.cc.destroy();
+  charts.cc=new Chart(document.getElementById('cc'),{type:'scatter',data:{datasets:[{data:pts,backgroundColor:'rgba(0,99,65,.6)',pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw.label+': ('+nm(c.raw.x)+', '+nm(c.raw.y)+')'}}},scales:{x:{title:{display:true,text:xK}},y:{title:{display:true,text:yK}}}}});
+}
+
+// ═══ EMAIL ═══
+function rEmail(){
+  const today=new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
+  // Find indicators with UMFs at 0
+  let issues=[];
+  ks().forEach(k=>{S.data[k].umfs.forEach(u=>{
+    if(u.val===0||u.val===null)issues.push({ind:k,umf:u.nombre,val:u.val});
+  })});
+  let groups={};issues.forEach(a=>{if(!groups[a.umf])groups[a.umf]=[];groups[a.umf].push(a)});
+
+  let email='ASUNTO: Seguimiento a Indicadores MMIM — '+ks().length+' indicadores monitoreados\n\n';
+  email+='Toluca, Estado de México, a '+today+'\n\n';
+  email+='C. Director(a) de la Unidad de Medicina Familiar\nOOAD México Poniente\nP R E S E N T E\n\n';
+  email+='La Coordinación de Información y Análisis Estratégico informa sobre el estado de los indicadores del MMIM 2026.\n\n';
+  email+='RESUMEN:\n';
+  email+='Indicadores monitoreados: '+ks().length+'\n';
+  PROC.forEach(p=>{
+    const n=ks().filter(k=>getProc(k)===p.id).length;
+    if(n>0)email+='  '+p.name+': '+n+' indicadores\n';
+  });
+  email+='\nUMFs CON INDICADORES EN 0 O SIN DATO:\n\n';
+  Object.entries(groups).slice(0,10).forEach(function(entry){
+    email+=entry[0]+':\n';
+    entry[1].forEach(function(a){email+='  - '+a.ind+': '+(a.val===0?'0%':'Sin dato')+'\n'});
+    email+='\n';
+  });
+  email+='Se solicita implementar acciones correctivas e informar avances en 15 días hábiles.\n\n';
+  email+='Atentamente,\nCoordinación de Información y Análisis Estratégico\nOOAD México Poniente';
+
+  return '<div class="cd"><div class="ct">Comunicado ejecutivo<span class="tg">LIVE</span></div>'+
+  '<div class="eb" id="em">'+email+'</div>'+
+  '<div style="margin-top:10px"><button class="btn" onclick="navigator.clipboard.writeText(document.getElementById(\'em\').innerText).then(function(){alert(\'Copiado\')})">Copiar al portapapeles</button></div></div>';
+}
+
+init();
+</script>
+</body>
+</html>
