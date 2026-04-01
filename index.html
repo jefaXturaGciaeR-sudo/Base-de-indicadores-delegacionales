@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CIAE Live — Análisis Estratégico IMSS 2026</title>
+<title>CIAE Live v2 — Análisis Estratégico IMSS 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -22,8 +22,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text)}
 .nv button.a{background:var(--accent2);color:#fff;font-weight:500}
 .nv button:hover:not(.a){background:#edebe4}
 .mn{max-width:1280px;margin:0 auto;padding:16px 24px}
-.g{display:grid;gap:10px;margin-bottom:14px}.g4{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}.g2{grid-template-columns:1fr 1fr}
-@media(max-width:800px){.g2{grid-template-columns:1fr}}
+.g{display:grid;gap:10px;margin-bottom:14px}.g4{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}
+@media(max-width:800px){.g2,.g3{grid-template-columns:1fr}}
 .mc{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
 .mc .lb{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
 .mc .vl{font-size:20px;font-weight:700;font-family:'JetBrains Mono',monospace}
@@ -43,10 +43,11 @@ tr:hover td{background:#fafaf6}
 .fl select{font-family:inherit;font-size:11px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;background:#fff;max-width:350px}
 .fl label{font-size:10px;color:var(--muted);font-weight:500}
 .al{padding:8px 12px;border-radius:6px;font-size:11px;margin-bottom:5px;border-left:3px solid;line-height:1.5}
-.ar{background:#fff5f5;border-color:var(--red)}.ay{background:#fffbeb;border-color:var(--yellow)}
+.ar{background:#fff5f5;border-color:var(--red)}.ay{background:#fffbeb;border-color:var(--yellow)}.ag{background:#f0fdf4;border-color:var(--green)}
 .al b{font-weight:600}
 .btn{padding:6px 12px;border:1px solid var(--accent);background:var(--accent);color:#fff;font-family:inherit;font-size:11px;cursor:pointer;border-radius:6px;font-weight:500}
 .btn:hover{background:var(--accent2)}
+.btn-s{padding:4px 8px;font-size:10px}
 .eb{background:#f8f7f3;border:1px solid var(--border);border-radius:8px;padding:14px;font-size:11px;line-height:1.7;white-space:pre-wrap;max-height:400px;overflow-y:auto;font-family:'JetBrains Mono',monospace}
 .ld{text-align:center;padding:50px;color:var(--muted);font-size:13px}
 .sp{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:s .8s linear infinite;margin:0 auto 10px}
@@ -58,20 +59,28 @@ tr:hover td{background:#fafaf6}
 .cp .nt{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4}
 .cp .btn{margin-top:16px;width:100%;padding:10px;font-size:12px}
 .tg{display:inline-block;background:#e8f5e9;color:var(--green);padding:1px 7px;border-radius:4px;font-size:9px;font-weight:600;margin-left:6px}
+.tg2{background:#fef3c7;color:#92400e}
 .pbar{width:100%;height:6px;background:var(--border);border-radius:3px;margin:8px 0}
 .pbar .fill{height:100%;border-radius:3px;background:var(--accent);transition:width .3s}
 .proc-hdr{padding:6px 8px;font-weight:700;font-size:10px;border-left:3px solid;background:#fafaf6}
+.corr-box{display:inline-block;padding:3px 8px;border-radius:4px;font-size:10px;font-weight:600;font-family:'JetBrains Mono',monospace}
+.corr-pos{background:#dcfce7;color:#14532d}.corr-neg{background:#fee2e2;color:#7f1d1d}.corr-neutral{background:#f1f5f9;color:#64748b}
+.risk-high{border-left:3px solid var(--red);background:#fff5f5;padding:8px 12px;border-radius:6px;margin-bottom:6px;font-size:11px}
+.risk-med{border-left:3px solid var(--yellow);background:#fffbeb;padding:8px 12px;border-radius:6px;margin-bottom:6px;font-size:11px}
+.risk-ok{border-left:3px solid var(--green);background:#f0fdf4;padding:8px 12px;border-radius:6px;margin-bottom:6px;font-size:11px}
 </style>
 </head>
 <body>
 <div class="top">
-<div><h1>CIAE Live — Coordinación de Información y Análisis Estratégico</h1><div class="sub">OOAD México Poniente · Indicadores MMIM 2026 · En vivo</div></div>
+<div><h1>CIAE Live v2 — Coordinación de Información y Análisis Estratégico</h1><div class="sub">OOAD México Poniente · Indicadores MMIM 2026 · En vivo</div></div>
 <div class="r"><div class="st"><div class="dot" id="sDot"></div><span id="sTxt">Conectando...</span></div><button class="br" onclick="refreshData()">↻ Actualizar</button></div>
 </div>
 <div class="nv" id="nav"></div>
 <div class="mn" id="app"></div>
 <script>
-// ═══ CONFIG ═══
+// ═══════════════════════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════════════════════
 const DC={
   sheetMMIM:'1EH8inIxhnvdkzPK7UedJt8zCSnhGvl8z1aBCyKBfY4M',
   sheetEval:'1PDVinhh3S-f6cDfSxf-VqZAFVy1Yqii9m0NlfIOxmGU',
@@ -81,7 +90,243 @@ function gc(){try{const s=localStorage.getItem('ciae3');return s?{...DC,...JSON.
 function sc(c){localStorage.setItem('ciae3',JSON.stringify(c))}
 function extractId(input){const m=input.match(/\/d\/([a-zA-Z0-9_-]+)/);return m?m[1]:input.trim()}
 
-// ═══ PROCESS STRUCTURE (per MMIM manual) ═══
+// ═══════════════════════════════════════════════════════════════════
+// METAS MMIM 2025 — CORREGIDAS del Manual Metodológico (PDF oficial)
+// Formato: {esp, medio_inf, medio_sup, dir, pond, unit, name, mensual?, nivel?}
+// dir: 'asc' = >=meta es verde, 'desc' = <=meta es verde
+// Operadores: asc → esp:>=X, medio:>A a <X, bajo:<=A
+//             desc → esp:<=X, medio:>X a <=B, bajo:>B  (o <B según ficha)
+// 'mensual' = array [ene..dic] con {esp, medio_inf, medio_sup} por mes
+// Los indicadores acumulados USAN la meta del mes en curso, NO la anual
+// ═══════════════════════════════════════════════════════════════════
+const METAS={
+  // ── DIABETES ──
+  'DM 01':{dir:'asc',pond:4,unit:'%',name:'Cobertura detección diabetes ≥20 años',
+    mensual:[
+      {esp:2.4,medio_inf:1.8,medio_sup:2.4},{esp:4.8,medio_inf:3.6,medio_sup:4.8},
+      {esp:7.1,medio_inf:5.3,medio_sup:7.1},{esp:9.5,medio_inf:7.1,medio_sup:9.5},
+      {esp:11.9,medio_inf:8.9,medio_sup:11.9},{esp:14.3,medio_inf:10.7,medio_sup:14.3},
+      {esp:16.6,medio_inf:12.5,medio_sup:16.6},{esp:19.0,medio_inf:14.3,medio_sup:19.0},
+      {esp:21.4,medio_inf:16.0,medio_sup:21.4},{esp:23.8,medio_inf:17.8,medio_sup:23.8},
+      {esp:26.1,medio_inf:19.6,medio_sup:26.1},{esp:28.5,medio_inf:21.4,medio_sup:28.5}
+    ]},
+  'DM 02':{esp:32.6,medio_inf:29.6,medio_sup:32.6,dir:'asc',pond:4,unit:'%',name:'Confirmación diabetes sospechosos'},
+  'DM 03':{esp:53.0,medio_inf:49.0,medio_sup:53.0,dir:'asc',pond:4,unit:'%',name:'Control glucémico HbA1c ≤7%'},
+  'DM 04':{esp:67.53,medio_inf:67.53,medio_sup:67.53,dir:'desc',pond:4,unit:'Tasa x100k',name:'Hospitalizaciones evitables diabetes',
+    nota:'Meta = mediana de tasas en jun/dic anualizados'},
+  'DM 05':{esp:95.0,medio_inf:95.0,medio_sup:115.1,dir:'desc',pond:4,unit:'Tasa x100k',name:'Amputación por diabetes'},
+  'DM 06':{dir:'desc',pond:4,unit:'Tasa x100k',name:'Invalidez por diabetes',
+    trimestral:[
+      {esp:8.42,medio_inf:8.42,medio_sup:12.45},
+      {esp:17.76,medio_inf:17.76,medio_sup:29.12},
+      {esp:26.23,medio_inf:26.23,medio_sup:41.34},
+      {esp:36.81,medio_inf:36.81,medio_sup:58.21}
+    ]},
+  // ── HIPERTENSIÓN ──
+  'EH 01':{dir:'asc',pond:4,unit:'%',name:'Cobertura detección HTA ≥20 años',
+    mensual:[
+      {esp:1.3,medio_inf:1.0,medio_sup:1.3},{esp:2.5,medio_inf:1.9,medio_sup:2.5},
+      {esp:3.8,medio_inf:2.9,medio_sup:3.8},{esp:5.0,medio_inf:3.8,medio_sup:5.0},
+      {esp:6.3,medio_inf:4.7,medio_sup:6.3},{esp:7.5,medio_inf:5.6,medio_sup:7.5},
+      {esp:8.8,medio_inf:6.6,medio_sup:8.8},{esp:10.0,medio_inf:7.5,medio_sup:10.0},
+      {esp:11.3,medio_inf:8.5,medio_sup:11.3},{esp:12.5,medio_inf:9.4,medio_sup:12.5},
+      {esp:13.8,medio_inf:10.4,medio_sup:13.8},{esp:15.0,medio_inf:11.3,medio_sup:15.0}
+    ]},
+  'EH 02':{esp:50.0,medio_inf:45.0,medio_sup:50.0,dir:'asc',pond:4,unit:'%',name:'Control HTA en medicina familiar'},
+  'EH 03':{esp:0.69,medio_inf:0.69,medio_sup:0.84,dir:'desc',pond:4,unit:'Tasa x100k',name:'Hospitalizaciones evitables HTA',
+    nota:'Meta = mediana de tasas'},
+  'EH 04':{dir:'desc',pond:4,unit:'Tasa x100k',name:'Invalidez por HTA',
+    trimestral:[
+      {esp:1.16,medio_inf:1.16,medio_sup:4.19},
+      {esp:2.68,medio_inf:2.68,medio_sup:10.19},
+      {esp:4.31,medio_inf:4.31,medio_sup:15.73},
+      {esp:6.00,medio_inf:6.00,medio_sup:21.83}
+    ]},
+  // ── CÁNCER DE MAMA ──
+  'CAMA 01':{dir:'asc',pond:4,unit:'%',name:'Cobertura mastografía 40-69 años',
+    mensual:[
+      {esp:1.8,medio_inf:1.4,medio_sup:1.8},{esp:3.7,medio_inf:2.8,medio_sup:3.7},
+      {esp:5.5,medio_inf:4.2,medio_sup:5.5},{esp:7.3,medio_inf:5.6,medio_sup:7.3},
+      {esp:9.2,medio_inf:7.0,medio_sup:9.2},{esp:11.0,medio_inf:8.4,medio_sup:11.0},
+      {esp:12.8,medio_inf:9.7,medio_sup:12.8},{esp:14.7,medio_inf:11.2,medio_sup:14.7},
+      {esp:16.5,medio_inf:12.5,medio_sup:16.5},{esp:18.3,medio_inf:13.9,medio_sup:18.3},
+      {esp:20.2,medio_inf:15.3,medio_sup:20.2},{esp:22.0,medio_inf:16.7,medio_sup:22.0}
+    ]},
+  'CAMA 02':{esp:30,medio_inf:30,medio_sup:60,dir:'desc',pond:3,unit:'Días',name:'Tiempo dx cáncer mama'},
+  'CAMA 03':{esp:21,medio_inf:21,medio_sup:28,dir:'desc',pond:3,unit:'Días',name:'Tiempo inicio tx cáncer mama'},
+  'CAMA 04':{dir:'desc',pond:4,unit:'Tasa x100k',name:'Invalidez cáncer mama',
+    trimestral:[
+      {esp:1.43,medio_inf:1.43,medio_sup:3.09},
+      {esp:2.56,medio_inf:2.56,medio_sup:8.06},
+      {esp:5.40,medio_inf:5.40,medio_sup:11.01},
+      {esp:6.63,medio_inf:6.63,medio_sup:14.21}
+    ]},
+  // ── CÁNCER CÉRVICO UTERINO ──
+  'CACU 01':{dir:'asc',pond:4,unit:'%',name:'Tamizaje CaCu 25-64 años',
+    mensual:[
+      {esp:2.3,medio_inf:1.7,medio_sup:2.3},{esp:4.5,medio_inf:3.4,medio_sup:4.5},
+      {esp:6.8,medio_inf:5.1,medio_sup:6.8},{esp:9.0,medio_inf:6.8,medio_sup:9.0},
+      {esp:11.3,medio_inf:8.6,medio_sup:11.3},{esp:13.5,medio_inf:10.3,medio_sup:13.5},
+      {esp:15.8,medio_inf:12.0,medio_sup:15.8},{esp:18.0,medio_inf:13.7,medio_sup:18.0},
+      {esp:20.3,medio_inf:15.4,medio_sup:20.3},{esp:22.5,medio_inf:17.1,medio_sup:22.5},
+      {esp:24.8,medio_inf:18.8,medio_sup:24.8},{esp:27.0,medio_inf:20.5,medio_sup:27.0}
+    ]},
+  'CACU 02':{esp:30,medio_inf:30,medio_sup:60,dir:'desc',pond:3,unit:'Días',name:'Tiempo dx CaCu'},
+  'CACU 03':{esp:21,medio_inf:21,medio_sup:28,dir:'desc',pond:3,unit:'Días',name:'Tiempo inicio tx CaCu'},
+  'CACU 04':{dir:'desc',pond:4,unit:'Tasa x100k',name:'Invalidez CaCu',
+    trimestral:[
+      {esp:0,medio_inf:0,medio_sup:1.52},
+      {esp:0,medio_inf:0,medio_sup:2.37},
+      {esp:1.25,medio_inf:1.25,medio_sup:3.01},
+      {esp:1.44,medio_inf:1.44,medio_sup:4.32}
+    ]},
+  // ── MATERNA ──
+  'Materna 01':{esp:12.0,medio_inf:12.0,medio_sup:15.0,dir:'desc',pond:4,unit:'%',name:'Adolescentes embarazadas'},
+  'Materna 02':{esp:70.0,medio_inf:60.0,medio_sup:70.0,dir:'asc',pond:4,unit:'%',name:'Oportunidad vigilancia prenatal'},
+  'Materna 03':{esp:5.0,medio_inf:5.0,medio_sup:7.0,dir:'desc',pond:4,unit:'%',name:'Preeclampsia-eclampsia'},
+  'Materna 04':{esp:83.5,medio_inf:81.9,medio_sup:83.5,dir:'asc',pond:4,unit:'%',name:'Protección anticonceptiva postevento'},
+  'Materna 05':{esp:8.5,medio_inf:8.5,medio_sup:10.0,dir:'desc',pond:4,unit:'%',name:'Prematurez'},
+  // ── NEONATAL ──
+  'Neonatal 01':{esp:96.0,medio_inf:94.9,medio_sup:96.0,dir:'asc',pond:4,unit:'%',name:'Seguimiento EMC'},
+  'Neonatal 02':{esp:85.0,medio_inf:80.0,medio_sup:85.0,dir:'asc',pond:4,unit:'%',name:'Lactancia materna exclusiva al egreso'},
+  'Neonatal 03':{esp:7.0,medio_inf:7.0,medio_sup:9.0,dir:'desc',pond:4,unit:'%',name:'Prematuros ≤1000g'},
+  'Neonatal 04':{esp:70.0,medio_inf:60.0,medio_sup:70.0,dir:'asc',pond:4,unit:'%',name:'Sobrevida prematuros ≤1200g'},
+  'Neonatal 05':{esp:5.0,medio_inf:5.0,medio_sup:8.0,dir:'desc',pond:4,unit:'Tasa',name:'Letalidad IAAS neonatal'},
+  'Neonatal 06':{esp:3.0,medio_inf:3.0,medio_sup:5.0,dir:'desc',pond:4,unit:'Tasa',name:'Mortalidad SDR neonatal'},
+  // ── SOBREPESO-OBESIDAD ──
+  'SOb 01':{dir:'asc',pond:4,unit:'%',name:'Cobertura peso y talla',
+    mensual:[
+      {esp:5.4,medio_inf:4.5,medio_sup:5.4},{esp:10.8,medio_inf:9.1,medio_sup:10.8},
+      {esp:16.2,medio_inf:13.7,medio_sup:16.2},{esp:21.6,medio_inf:18.2,medio_sup:21.6},
+      {esp:27.0,medio_inf:22.8,medio_sup:27.0},{esp:32.4,medio_inf:27.4,medio_sup:32.4},
+      {esp:37.8,medio_inf:31.9,medio_sup:37.8},{esp:43.2,medio_inf:38.0,medio_sup:43.2},
+      {esp:48.6,medio_inf:41.1,medio_sup:48.6},{esp:54.0,medio_inf:45.7,medio_sup:54.0},
+      {esp:59.4,medio_inf:50.2,medio_sup:59.4},{esp:65.0,medio_inf:54.9,medio_sup:65.0}
+    ]},
+  'SOb 02':{esp:35.0,medio_inf:35.0,medio_sup:38.0,dir:'desc',pond:4,unit:'%',name:'Proporción obesidad ≥20 años'},
+  'SOb 03':{esp:5.5,medio_inf:5.5,medio_sup:7.0,dir:'desc',pond:4,unit:'%',name:'Obesidad grado III'},
+  // ── CUPN ──
+  'CUPN 01':{dir:'asc',pond:4,unit:'%',name:'Cobertura PrevenIMSS',
+    mensual:[
+      {esp:5.3,medio_inf:4.8,medio_sup:5.3},{esp:10.5,medio_inf:9.7,medio_sup:10.5},
+      {esp:15.8,medio_inf:14.5,medio_sup:15.8},{esp:21.0,medio_inf:19.3,medio_sup:21.0},
+      {esp:26.3,medio_inf:24.2,medio_sup:26.3},{esp:31.5,medio_inf:29.0,medio_sup:31.5},
+      {esp:36.8,medio_inf:33.8,medio_sup:36.8},{esp:42.0,medio_inf:38.7,medio_sup:42.0},
+      {esp:47.3,medio_inf:43.5,medio_sup:47.3},{esp:52.5,medio_inf:48.3,medio_sup:52.5},
+      {esp:57.8,medio_inf:53.2,medio_sup:57.8},{esp:63.0,medio_inf:58.0,medio_sup:63.0}
+    ]},
+  'CUPN 03':{esp:90.0,medio_inf:85.0,medio_sup:90.0,dir:'asc',pond:4,unit:'%',name:'Aceptantes anticonceptivos'},
+  'CUPN 04':{esp:10.0,medio_inf:10.0,medio_sup:12.0,dir:'desc',pond:4,unit:'%',name:'Referencia a 2do nivel'},
+  'CUPN 07':{esp:6.0,medio_inf:5.0,medio_sup:6.0,dir:'asc',pond:4,unit:'Prom',name:'Consultas estomatología/hora'},
+  // ── CUSN ──
+  'CUSN 01':{esp:27.2,medio_inf:27.2,medio_sup:33.0,dir:'desc',pond:4,unit:'Razón x100k NV',name:'Muerte materna hospitalaria'},
+  'CUSN 02':{esp:9.4,medio_inf:9.4,medio_sup:10.4,dir:'desc',pond:4,unit:'Tasa x1k',name:'Mortalidad perinatal'},
+  // ── HOSP (segundo nivel OOAD, no UMAE) ──
+  'HOSP 01':{esp:100,medio_inf:100,medio_sup:120,dir:'desc',pond:3,unit:'%',name:'Ocupación observación urgencias'},
+  'HOSP 02':{esp:20.0,medio_inf:20.0,medio_sup:30.0,dir:'desc',pond:3,unit:'%',name:'Estancia prolongada urgencias >12h'},
+  'HOSP 03':{esp:80.0,medio_inf:70.0,medio_sup:80.0,dir:'asc',pond:3,unit:'%',name:'Consulta especialidad ≤20 días'},
+  'HOSP 04':{esp:12.0,medio_inf:10.0,medio_sup:12.0,dir:'asc',pond:3,unit:'Prom',name:'Consultas diarias/consultorio'},
+  'HOSP 05':{esp:85.0,medio_inf:75.0,medio_sup:85.0,dir:'asc',pond:3,unit:'%',name:'Ocupación hospitalaria'},
+  'HOSP 06':{esp:4.5,medio_inf:4.5,medio_sup:5.5,dir:'desc',pond:3,unit:'Días',name:'Promedio días estancia',
+    nota:'Meta varía por tipo de hospital (HGZ/HGR vs UMAE). Este valor aplica a segundo nivel OOAD.'},
+  'HOSP 07':{esp:3.0,medio_inf:3.0,medio_sup:4.0,dir:'desc',pond:3,unit:'%',name:'Mortalidad hospitalaria'},
+  'HOSP 08':{esp:80.0,medio_inf:70.0,medio_sup:80.0,dir:'asc',pond:3,unit:'%',name:'Cirugía electiva ≤20 días'},
+  'HOSP 09':{esp:65.0,medio_inf:55.0,medio_sup:65.0,dir:'asc',pond:3,unit:'%',name:'Ocupación quirófanos días hábiles'},
+  'HOSP 10':{esp:10.0,medio_inf:10.0,medio_sup:15.0,dir:'desc',pond:3,unit:'%',name:'Suspensión cirugías'},
+  // ── IAAS ──
+  'IAAS 01':{esp:3.5,medio_inf:3.5,medio_sup:5.0,dir:'desc',pond:4,unit:'Tasa x1k',name:'IAAS por 1000 días estancia'},
+  'IAAS 02':{esp:5.0,medio_inf:5.0,medio_sup:8.0,dir:'desc',pond:4,unit:'Tasa x1k',name:'Neumonía asoc. ventilación mecánica'},
+  // ── CE ──
+  'CE 01':{esp:16,medio_inf:12,medio_sup:16,dir:'asc',pond:1,unit:'Prom',name:'Productividad enfermería preventiva'},
+  'CE 02':{esp:10,medio_inf:8,medio_sup:10,dir:'asc',pond:1,unit:'Prom',name:'Productividad enfermería EMIF'},
+  // ── CVE ──
+  'CVE 01':{esp:80.0,medio_inf:60.0,medio_sup:80.0,dir:'asc',pond:3,unit:'%',name:'Notificación inmediata epidemiológica'},
+  // ── CES ──
+  'CES 04':{esp:80.0,medio_inf:70.0,medio_sup:80.0,dir:'asc',pond:3,unit:'%',name:'Cobertura capacitación salud'},
+  // ── CIS ──
+  'CIS 01':{esp:100,medio_inf:80,medio_sup:100,dir:'asc',pond:4,unit:'N',name:'Publicaciones científicas'},
+  'CIS 02':{esp:72.0,medio_inf:64.4,medio_sup:72.0,dir:'asc',pond:4,unit:'%',name:'Publicaciones Q1-Q2'},
+  'CIS 05':{esp:80.0,medio_inf:64.4,medio_sup:80.0,dir:'asc',pond:4,unit:'%',name:'Protocolos temas prioritarios'},
+  'CIS 07':{esp:90.0,medio_inf:80.0,medio_sup:90.0,dir:'asc',pond:4,unit:'%',name:'Residentes con protocolo terminado'}
+};
+
+// Obtener la meta vigente según el mes actual (para indicadores acumulados)
+function getMetaVigente(tab){
+  const m=METAS[tab];if(!m) return null;
+  const mesIdx=new Date().getMonth(); // 0=ene, 11=dic
+  if(m.mensual){
+    const mm=m.mensual[mesIdx]||m.mensual[m.mensual.length-1];
+    return {esp:mm.esp,medio_inf:mm.medio_inf,medio_sup:mm.medio_sup,dir:m.dir,pond:m.pond,unit:m.unit,name:m.name,nota:m.nota,dinamico:true,mesTxt:['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'][mesIdx]};
+  }
+  if(m.trimestral){
+    const triIdx=Math.min(Math.floor(mesIdx/3),3);
+    const tt=m.trimestral[triIdx];
+    return {esp:tt.esp,medio_inf:tt.medio_inf,medio_sup:tt.medio_sup,dir:m.dir,pond:m.pond,unit:m.unit,name:m.name,nota:m.nota,dinamico:true,mesTxt:'T'+(triIdx+1)};
+  }
+  return {esp:m.esp,medio_inf:m.medio_inf,medio_sup:m.medio_sup,dir:m.dir,pond:m.pond,unit:m.unit,name:m.name,nota:m.nota,dinamico:false};
+}
+
+// Fórmula de proporcionalidad IMSS para calcular ponderación obtenida
+function calcPonderacion(tab,val){
+  const mv=getMetaVigente(tab);if(!mv||val===null||val===undefined||isNaN(val)) return 0;
+  const sem=evalSemaforoReal(mv,val);
+  if(sem==='verde') return mv.pond;
+  if(sem==='rojo') return 0;
+  // Desempeño medio → proporcionalidad
+  if(mv.dir==='asc'){
+    // Proporcionalidad directa: (pond * val) / esp
+    return +(mv.pond*val/mv.esp).toFixed(2);
+  } else {
+    // Proporcionalidad inversa: (pond * esp) / val
+    return val===0?mv.pond:+(mv.pond*mv.esp/val).toFixed(2);
+  }
+}
+
+// Semáforo con operadores exactos del MMIM
+function evalSemaforoReal(mv,val){
+  if(!mv||val===null||val===undefined||isNaN(val)) return 'sd';
+  if(mv.dir==='asc'){
+    // Esperado: >= esp | Medio: > medio_inf a < esp | Bajo: <= medio_inf
+    if(val>=mv.esp) return 'verde';
+    if(val>mv.medio_inf && val<mv.esp) return 'amarillo';
+    return 'rojo';
+  } else {
+    // Esperado: <= esp | Medio: > esp a <= medio_sup | Bajo: > medio_sup
+    if(val<=mv.esp) return 'verde';
+    if(val>mv.esp && val<=mv.medio_sup) return 'amarillo';
+    return 'rojo';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// CORRELACIONES CONOCIDAS (basado en el MMIM y lógica epidemiológica)
+// ═══════════════════════════════════════════════════════════════════
+const CORR_CONOCIDAS=[
+  {from:'DM 01',to:'DM 03',tipo:'directa',desc:'Mayor detección diabetes → más pacientes en control glucémico'},
+  {from:'DM 03',to:'DM 04',tipo:'inversa',desc:'Mejor control HbA1c → menos hospitalizaciones evitables'},
+  {from:'DM 04',to:'DM 05',tipo:'directa',desc:'Más hospitalizaciones → mayor riesgo de amputaciones'},
+  {from:'DM 05',to:'DM 06',tipo:'directa',desc:'Más amputaciones → mayor invalidez'},
+  {from:'EH 01',to:'EH 02',tipo:'directa',desc:'Mayor detección HTA → más pacientes controlados'},
+  {from:'EH 02',to:'EH 03',tipo:'inversa',desc:'Mejor control HTA → menos hospitalizaciones evitables'},
+  {from:'CAMA 01',to:'CAMA 02',tipo:'inversa',desc:'Mayor cobertura mastografía → menor tiempo diagnóstico'},
+  {from:'CACU 01',to:'CACU 02',tipo:'inversa',desc:'Mayor tamizaje → diagnósticos más oportunos'},
+  {from:'Materna 02',to:'Materna 03',tipo:'inversa',desc:'Vigilancia prenatal oportuna → menos preeclampsia'},
+  {from:'Materna 01',to:'Materna 03',tipo:'directa',desc:'Más embarazos adolescentes → mayor riesgo preeclampsia'},
+  {from:'CUPN 01',to:'DM 01',tipo:'directa',desc:'Mayor PrevenIMSS → mayor detección diabetes'},
+  {from:'CUPN 01',to:'EH 01',tipo:'directa',desc:'Mayor PrevenIMSS → mayor detección HTA'},
+  {from:'SOb 01',to:'DM 01',tipo:'directa',desc:'Mayor medición peso/talla → mejor detección diabetes'},
+  {from:'CE 01',to:'CUPN 01',tipo:'directa',desc:'Mayor productividad enfermería → mejor cobertura preventiva'},
+  {from:'HOSP 05',to:'HOSP 06',tipo:'inversa',desc:'Mayor ocupación → presión para reducir estancia'},
+  {from:'IAAS 01',to:'HOSP 06',tipo:'directa',desc:'Más IAAS → mayor estancia hospitalaria'},
+  {from:'HOSP 10',to:'HOSP 09',tipo:'inversa',desc:'Mayor suspensión cirugías → menor uso de quirófanos'},
+  {from:'CVE 01',to:'IAAS 01',tipo:'inversa',desc:'Mejor vigilancia epidemiológica → mejor control IAAS'},
+  {from:'Neonatal 05',to:'Neonatal 06',tipo:'directa',desc:'Mayor letalidad IAAS neonatal → mayor mortalidad SDR'},
+  {from:'Materna 04',to:'Materna 01',tipo:'inversa',desc:'Mayor anticoncepción postevento → menos embarazos adolescentes'}
+];
+
+// ═══════════════════════════════════════════════════════════════════
+// PROCESS STRUCTURE (per MMIM manual)
+// ═══════════════════════════════════════════════════════════════════
 const PROC=[
   {id:'DM',name:'Diabetes',color:'#1d4ed8',group:'PSE'},
   {id:'EH',name:'Enfermedades hipertensivas',color:'#c0392b',group:'PSE'},
@@ -100,93 +345,155 @@ const PROC=[
   {id:'CIS',name:'Investigación en salud',color:'#4338ca',group:'CN'}
 ];
 
-// ═══ ALL TABS — from both sheets ═══
-// Source: 'eval' = Evaluación de Desempeño, 'mmim' = Tablero MMIM
+// ═══════════════════════════════════════════════════════════════════
+// ALL TABS
+// ═══════════════════════════════════════════════════════════════════
 const ALL_TABS=[
-  // DM
   {tab:'DM 01',proc:'DM',src:'eval'},{tab:'DM 02',proc:'DM',src:'eval'},{tab:'DM 03',proc:'DM',src:'eval'},
   {tab:'DM 04',proc:'DM',src:'eval'},{tab:'DM 05',proc:'DM',src:'eval'},{tab:'DM 06',proc:'DM',src:'eval'},
-  // EH
   {tab:'EH 01',proc:'EH',src:'eval'},{tab:'EH 02',proc:'EH',src:'eval'},
   {tab:'EH 03',proc:'EH',src:'eval'},{tab:'EH 04',proc:'EH',src:'eval'},
-  // CAMA
   {tab:'CAMA 01',proc:'CAMA',src:'eval'},{tab:'CAMA 02',proc:'CAMA',src:'eval'},
   {tab:'CAMA 03',proc:'CAMA',src:'eval'},{tab:'CAMA 04',proc:'CAMA',src:'eval'},
-  // CACU
   {tab:'CACU 01',proc:'CACU',src:'eval'},{tab:'CACU 02',proc:'CACU',src:'eval'},
   {tab:'CACU 03',proc:'CACU',src:'eval'},{tab:'CACU 04',proc:'CACU',src:'eval'},
-  // Materna
   {tab:'Materna 01',proc:'Materna',src:'eval'},{tab:'Materna 02',proc:'Materna',src:'eval'},
   {tab:'Materna 03',proc:'Materna',src:'eval'},{tab:'Materna 04',proc:'Materna',src:'eval'},
   {tab:'Materna 05',proc:'Materna',src:'eval'},
-  // Neonatal
   {tab:'Neonatal 01',proc:'Neonatal',src:'eval'},{tab:'Neonatal 02',proc:'Neonatal',src:'eval'},
   {tab:'Neonatal 03',proc:'Neonatal',src:'eval'},{tab:'Neonatal 04',proc:'Neonatal',src:'eval'},
   {tab:'Neonatal 05',proc:'Neonatal',src:'eval'},{tab:'Neonatal 06',proc:'Neonatal',src:'eval'},
-  // SOb
   {tab:'SOb 01',proc:'SOb',src:'eval'},{tab:'SOb 02',proc:'SOb',src:'eval'},{tab:'SOb 03',proc:'SOb',src:'eval'},
-  // CUPN
   {tab:'CUPN 01',proc:'CUPN',src:'eval'},{tab:'CUPN 03',proc:'CUPN',src:'eval'},
   {tab:'CUPN 04',proc:'CUPN',src:'eval'},{tab:'CUPN 07',proc:'CUPN',src:'eval'},
-  // CUSN
   {tab:'CUSN 01',proc:'CUSN',src:'eval'},{tab:'CUSN 02',proc:'CUSN',src:'eval'},
-  // HOSP
   {tab:'HOSP 01',proc:'HOSP',src:'eval'},{tab:'HOSP 02',proc:'HOSP',src:'eval'},
   {tab:'HOSP 03',proc:'HOSP',src:'eval'},{tab:'HOSP 04',proc:'HOSP',src:'eval'},
   {tab:'HOSP 05',proc:'HOSP',src:'eval'},{tab:'HOSP 06',proc:'HOSP',src:'eval'},
   {tab:'HOSP 07',proc:'HOSP',src:'eval'},{tab:'HOSP 08',proc:'HOSP',src:'eval'},
   {tab:'HOSP 09',proc:'HOSP',src:'eval'},{tab:'HOSP 10',proc:'HOSP',src:'eval'},
-  // IAAS
   {tab:'IAAS 01',proc:'IAAS',src:'eval'},{tab:'IAAS 02',proc:'IAAS',src:'eval'},
-  // CE
   {tab:'CE 01',proc:'CE',src:'eval'},{tab:'CE 02',proc:'CE',src:'eval'},
-  // CVE
   {tab:'CVE 01',proc:'CVE',src:'eval'},
-  // CES
   {tab:'CES 04',proc:'CES',src:'eval'},
-  // CIS
   {tab:'CIS 01',proc:'CIS',src:'eval'},{tab:'CIS 02',proc:'CIS',src:'eval'},
   {tab:'CIS 05',proc:'CIS',src:'eval'},{tab:'CIS 07',proc:'CIS',src:'eval'}
 ];
 
-// Also load weekly data from MMIM for the 6 weekly indicators
 const MMIM_WEEKLY=[
   {tab:'DM01',proc:'DM',evalTab:'DM 01'},{tab:'EH01',proc:'EH',evalTab:'EH 01'},
   {tab:'CAMA 01',proc:'CAMA',evalTab:'CAMA 01'},{tab:'CACU 01',proc:'CACU',evalTab:'CACU 01'},
   {tab:'SOB01',proc:'SOb',evalTab:'SOb 01'},{tab:'CUPN 01',proc:'CUPN',evalTab:'CUPN 01'}
 ];
 
-// ═══ FETCH ═══
-async function fetchSheet(sid,tab){
-  const url='https://docs.google.com/spreadsheets/d/'+sid+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(tab);
-  try{
-    const r=await fetch(url);const t=await r.text();
-    const m=t.match(/google\.visualization\.Query\.setResponse\((.+)\);?/);
-    if(!m)throw new Error('No data');
-    const j=JSON.parse(m[1]);
-    if(j.status==='error')throw new Error(j.errors?.[0]?.message||'Error');
-    return{cols:j.table.cols.map(c=>c.label||''),rows:j.table.rows.map(r=>r.c.map(c=>c?c.v:null))};
-  }catch(e){return null}
+// ═══════════════════════════════════════════════════════════════════
+// SEMÁFORO REAL con metas MMIM
+// ═══════════════════════════════════════════════════════════════════
+function evalSemaforo(tab, val){
+  const mv=getMetaVigente(tab);
+  return evalSemaforoReal(mv,val);
+}
+function semPill(s){
+  const map={verde:['pg','Esperado'],amarillo:['py','Medio'],rojo:['pr','Bajo'],sd:['pr','S/D']};
+  const[c,l]=map[s]||map.sd;
+  return '<span class="pl '+c+'">'+l+'</span>';
 }
 
-// ═══ GENERIC PARSER ═══
-// The Eval sheet has a consistent structure:
-// Row 11 (idx 11): headers with "Clave presupuestal", "Unidad", months...
-// Row 12: OOAD México Poniente
-// Row 13+: UMFs with clave in col 0, name in col 1
-// The parser adapts to find the last column with numeric data
+// ═══════════════════════════════════════════════════════════════════
+// MATH: Pearson, Regresión Lineal, Proyección
+// ═══════════════════════════════════════════════════════════════════
+function pearson(x,y){
+  const n=Math.min(x.length,y.length);
+  if(n<3) return {r:0,n:0};
+  const mx=x.slice(0,n).reduce((a,b)=>a+b,0)/n;
+  const my=y.slice(0,n).reduce((a,b)=>a+b,0)/n;
+  let num=0,dx2=0,dy2=0;
+  for(let i=0;i<n;i++){const dx=x[i]-mx,dy=y[i]-my;num+=dx*dy;dx2+=dx*dx;dy2+=dy*dy}
+  const den=Math.sqrt(dx2*dy2);
+  return {r:den===0?0:num/den, n};
+}
+function linReg(pts){
+  const n=pts.length;
+  if(n<2) return {slope:0,intercept:pts[0]?.y||0,r2:0};
+  let sx=0,sy=0,sxy=0,sx2=0;
+  pts.forEach(({x,y})=>{sx+=x;sy+=y;sxy+=x*y;sx2+=x*x});
+  const slope=(n*sxy-sx*sy)/(n*sx2-sx*sx);
+  const intercept=(sy-slope*sx)/n;
+  const mean=sy/n;
+  const ssTot=pts.reduce((s,{y})=>s+(y-mean)**2,0);
+  const ssRes=pts.reduce((s,{x,y})=>s+(y-(slope*x+intercept))**2,0);
+  const r2=ssTot===0?1:1-ssRes/ssTot;
+  return {slope,intercept,r2};
+}
+function projectNext(pts, ahead=3){
+  const {slope,intercept}=linReg(pts);
+  const lastX=pts[pts.length-1]?.x||0;
+  return Array.from({length:ahead},(_,i)=>({
+    x:lastX+i+1,
+    y:+(slope*(lastX+i+1)+intercept).toFixed(2)
+  }));
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// FETCH — robusto con reintentos por variantes de nombre de hoja
+// ═══════════════════════════════════════════════════════════════════
+let fetchLog=[];
+async function fetchSheetRaw(sid,tab){
+  const url = `https://opensheet.elk.sh/${sid}/${encodeURIComponent(tab)}`;
+  
+  const r = await fetch(url);
+  if(!r.ok) throw new Error('HTTP '+r.status);
+
+  const data = await r.json();
+
+  if(!data || data.length === 0){
+    throw new Error('Hoja vacía o no encontrada');
+  }
+
+  const cols = Object.keys(data[0]);
+  const rows = data.map(row => cols.map(c => row[c]));
+
+  return { cols, rows };
+}
+async function fetchSheet(sid,tab){
+  // Intentar nombre exacto primero, luego variantes comunes
+  const variants=[tab];
+  // Sin espacio: "DM 01" → "DM01"
+  if(tab.includes(' ')) variants.push(tab.replace(/\s+/g,''));
+  // Con guión bajo: "DM 01" → "DM_01"
+  if(tab.includes(' ')) variants.push(tab.replace(/\s+/g,'_'));
+  // Minúsculas
+  variants.push(tab.toLowerCase());
+  // Sin espacio minúsculas
+  if(tab.includes(' ')) variants.push(tab.replace(/\s+/g,'').toLowerCase());
+  
+  for(const v of variants){
+    try{
+      const data=await fetchSheetRaw(sid,v);
+      if(v!==tab) fetchLog.push({tab,status:'ok',note:'Encontrada como "'+v+'"'});
+      else fetchLog.push({tab,status:'ok'});
+      return data;
+    }catch(e){
+      // Solo loguear si es la última variante
+      if(v===variants[variants.length-1]){
+        fetchLog.push({tab,status:'error',note:e.message});
+      }
+    }
+  }
+  return null;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// GENERIC PARSER (same logic as v1, preserved)
+// ═══════════════════════════════════════════════════════════════════
 function parseGeneric(data, tabName){
   if(!data||!data.rows||data.rows.length<13)return null;
   const R=data.rows;
-
-  // Find indicator name (rows 1-3)
   let name=tabName;
   for(let r=0;r<4;r++){for(let c=0;c<5;c++){
     const v=String(R[r]?.[c]||'').trim();
     if(v.length>15&&(v.includes('-')||v.includes('Cobertura')||v.includes('Porcentaje')||v.includes('Tasa')||v.includes('Promedio')||v.includes('Índice'))){name=v;break}
   };if(name!==tabName)break}
-
-  // Find header row (look for "Clave presupuestal" or "Unidad")
   let hdrRow=-1;
   for(let r=8;r<22;r++){
     if(!R[r])continue;
@@ -196,13 +503,8 @@ function parseGeneric(data, tabName){
     };if(hdrRow>=0)break;
   }
   if(hdrRow<0)hdrRow=11;
-
-  // Find columns with month names or "Oficial"
   const hdr=R[hdrRow]||[];
-  const subHdr=R[hdrRow+1]||[];
   let lastDataCol=-1;
-
-  // Find the last column that has numeric data in rows below header
   for(let c=hdr.length-1;c>=2;c--){
     for(let r=hdrRow+2;r<Math.min(hdrRow+8,R.length);r++){
       const v=R[r]?.[c];
@@ -210,8 +512,6 @@ function parseGeneric(data, tabName){
     };if(lastDataCol>=0)break;
   }
   if(lastDataCol<0)lastDataCol=4;
-
-  // Extract UMFs and OOAD
   const umfs=[];let ooad=null;
   for(let r=hdrRow+1;r<R.length;r++){
     const row=R[r];if(!row)continue;
@@ -220,87 +520,90 @@ function parseGeneric(data, tabName){
     if(!c0&&!c1)continue;
     const nm=c1||c0;
     if(nm.length<3)continue;
-
-    // Get the value from lastDataCol
     const val=typeof row[lastDataCol]==='number'?Math.round(row[lastDataCol]*100)/100:null;
-
-    // Historical: try cols 2-8 for years
     const hist={};
     for(let c=2;c<=8;c++){
-      const yr=R[hdrRow]?.[c];
-      const v=row[c];
+      const yr=R[hdrRow]?.[c];const v=row[c];
       if(yr&&typeof v==='number'){
         const yrNum=typeof yr==='number'?yr:parseInt(String(yr));
         if(yrNum>=2018&&yrNum<=2025)hist[yrNum]=Math.round(v*100)/100;
       }
     }
-
-    // Monthly values: scan for month columns
     const monthly={};
     const months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
     for(let c=2;c<hdr.length;c++){
       const h=String(hdr[c]||'').trim();
       const mo=months.find(m=>h.toLowerCase().includes(m.toLowerCase()));
-      if(mo&&typeof row[c]==='number'){
-        if(!monthly[mo])monthly[mo]=Math.round(row[c]*100)/100;
-      }
+      if(mo&&typeof row[c]==='number'){if(!monthly[mo])monthly[mo]=Math.round(row[c]*100)/100}
     }
-
     const entry={nombre:nm,clave:c0,val,hist,monthly};
-
-    if(nm.toLowerCase().includes('ooad')||nm.toLowerCase().includes('poniente')||
-       nm.toLowerCase().includes('méxico poniente')||c0==='16')
+    if(nm.toLowerCase().includes('ooad')||nm.toLowerCase().includes('poniente')||nm.toLowerCase().includes('méxico poniente')||c0==='16')
       ooad=entry;
-    else if(nm.match(/^(UMF|HGZ|HGR|UMFH|HGO)/i)||/^\d{12}$/.test(c0)||
-            (nm.length>4&&!nm.toLowerCase().includes('total')&&!nm.toLowerCase().includes('nacional')))
+    else if(nm.match(/^(UMF|HGZ|HGR|UMFH|HGO)/i)||/^\d{12}$/.test(c0)||(nm.length>4&&!nm.toLowerCase().includes('total')&&!nm.toLowerCase().includes('nacional')))
       umfs.push(entry);
   }
-
   return{name,tab:tabName,ooad,umfs,val_col:lastDataCol};
 }
 
-// ═══ STATE ═══
+// ═══════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════
 let S={loaded:false,loading:false,error:null,lastUpdate:null,data:{},progress:0,total:0};
 let cv='config',si='',su='all',charts={};
 
-// ═══ LOAD ═══
+// ═══════════════════════════════════════════════════════════════════
+// LOAD
+// ═══════════════════════════════════════════════════════════════════
 async function loadAllData(){
   const cfg=gc();S.loading=true;S.error=null;S.data={};S.progress=0;
-  S.total=ALL_TABS.length;
-  render();
-
+  S.total=ALL_TABS.length;fetchLog=[];render();
   try{
-    const evalId=cfg.sheetEval;
-    const mmimId=cfg.sheetMMIM;
-    let ok=0;
-
-    // Load in batches of 8 to avoid rate limiting
-    for(let i=0;i<ALL_TABS.length;i+=8){
-      const batch=ALL_TABS.slice(i,i+8);
-      const results=await Promise.allSettled(
-        batch.map(t=>fetchSheet(evalId,t.tab).then(d=>({...t,data:d})))
-      );
+    const evalId=cfg.sheetEval;let ok=0;let failedTabs=[];
+    for(let i=0;i<ALL_TABS.length;i+=6){
+      const batch=ALL_TABS.slice(i,i+6);
+      const results=await Promise.allSettled(batch.map(t=>fetchSheet(evalId,t.tab).then(d=>({...t,data:d}))));
       results.forEach(r=>{
         if(r.status==='fulfilled'&&r.value.data){
-          const v=r.value;
-          const parsed=parseGeneric(v.data,v.tab);
-          if(parsed&&parsed.umfs.length>0){
-            parsed.proc=v.proc;parsed.src=v.src;
-            S.data[v.tab]=parsed;ok++;
-          }
+          const v=r.value;const parsed=parseGeneric(v.data,v.tab);
+          if(parsed&&parsed.umfs.length>0){parsed.proc=v.proc;parsed.src=v.src;S.data[v.tab]=parsed;ok++}
+          else{failedTabs.push(v.tab+' (sin UMFs)')}
+        }else{
+          const tab=r.status==='fulfilled'?r.value.tab:batch[results.indexOf(r)]?.tab||'?';
+          failedTabs.push(tab);
         }
       });
-      S.progress=Math.min(i+8,ALL_TABS.length);
+      S.progress=Math.min(i+6,ALL_TABS.length);
       document.getElementById('sTxt').textContent='Cargando... '+S.progress+'/'+S.total;
-      // Small delay between batches
-      if(i+8<ALL_TABS.length)await new Promise(r=>setTimeout(r,300));
+      if(i+6<ALL_TABS.length)await new Promise(r=>setTimeout(r,500));
     }
-
-    if(ok===0)throw new Error('No se pudieron leer los Google Sheets. Verifica que estén compartidos como "Cualquier persona con el enlace puede ver".');
-    S.loaded=true;S.lastUpdate=new Date();
-    si=Object.keys(S.data)[0];
+    if(ok===0){
+      const privErr=fetchLog.filter(l=>l.note&&l.note.includes('público')).length;
+      let errHtml='<b>No se pudieron leer los Google Sheets.</b><br><br>';
+      if(privErr>0){
+        errHtml+='<div style="background:#fee2e2;padding:12px;border-radius:8px;margin-bottom:12px">';
+        errHtml+='<b style="color:#c0392b">Causa: Los Sheets NO son públicos</b></div>';
+        errHtml+='<b>Solución (2 minutos):</b><br>';
+        errHtml+='1. Abre tu Google Sheet de <b>Evaluación de Desempeño</b><br>';
+        errHtml+='2. Clic en <b>"Compartir"</b> (botón verde, arriba derecha)<br>';
+        errHtml+='3. En "Acceso general" → cambiar a <b>"Cualquier persona con el enlace"</b><br>';
+        errHtml+='4. Verificar que diga <b>"Lector"</b> (no Editor)<br>';
+        errHtml+='5. Clic en <b>"Listo"</b><br>';
+        errHtml+='6. <b>Repetir</b> para el Tablero MMIM<br>';
+        errHtml+='7. Regresar aquí → clic en <b>"↻ Actualizar"</b><br>';
+      } else {
+        errHtml+='Posibles causas:<br>• IDs de Sheet incorrectos<br>• Hojas con nombres diferentes a los esperados<br>• Problema temporal de Google<br>';
+        const errs=fetchLog.filter(l=>l.status==='error').slice(0,5);
+        if(errs.length>0){
+          errHtml+='<br><b>Errores detectados:</b><br>';
+          errs.forEach(l=>{errHtml+='• '+l.tab+': '+l.note+'<br>'});
+        }
+      }
+      throw new Error(errHtml);
+    }
+    S.loaded=true;S.lastUpdate=new Date();si=Object.keys(S.data)[0];
     document.getElementById('sDot').classList.remove('off');
-    document.getElementById('sTxt').textContent=ok+' indicadores · '+new Date().toLocaleTimeString('es-MX');
+    const failMsg=failedTabs.length>0?' ('+failedTabs.length+' no encontradas)':'';
+    document.getElementById('sTxt').textContent=ok+' indicadores'+failMsg+' · '+new Date().toLocaleTimeString('es-MX');
     cv='dashboard';
   }catch(e){
     S.error=e.message;
@@ -311,15 +614,16 @@ async function loadAllData(){
 }
 async function refreshData(){await loadAllData()}
 
-// ═══ RENDER ═══
-const VW=[{id:'dashboard',l:'Dashboard'},{id:'semaforo',l:'Semáforo'},{id:'tendencias',l:'Tendencias'},{id:'proyecciones',l:'Proyecciones'},{id:'correlacion',l:'Correlación'},{id:'email',l:'Email'},{id:'config',l:'⚙'}];
+// ═══════════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════════
+const VW=[{id:'dashboard',l:'Dashboard'},{id:'semaforo',l:'Semáforo'},{id:'tendencias',l:'Tendencias'},{id:'proyecciones',l:'Proyecciones'},{id:'correlacion',l:'Correlación'},{id:'conexiones',l:'Conexiones'},{id:'email',l:'Email'},{id:'config',l:'⚙'}];
 
 function init(){
   const nv=document.getElementById('nav');
   VW.forEach(v=>{const b=document.createElement('button');b.textContent=v.l;b.onclick=()=>{cv=v.id;render()};b.dataset.v=v.id;nv.appendChild(b)});
   const cfg=gc();if(cfg.sheetEval)loadAllData();else render();
 }
-
 function render(){
   document.querySelectorAll('.nv button').forEach(b=>b.classList.toggle('a',b.dataset.v===cv));
   Object.values(charts).forEach(c=>{try{c.destroy()}catch(e){}});charts={};
@@ -330,7 +634,7 @@ function render(){
     app.innerHTML='<div class="ld"><div class="sp"></div>Conectando con Google Sheets...<div class="pbar"><div class="fill" style="width:'+pct+'%"></div></div><div style="font-size:11px;margin-top:4px">'+S.progress+'/'+S.total+' hojas</div></div>';
     return;
   }
-  if(S.error){app.innerHTML='<div class="ld">'+S.error+'<br><br><button class="btn" onclick="cv=\'config\';render()">Configurar</button></div>';return}
+  if(S.error){app.innerHTML='<div class="ld"><div style="white-space:pre-wrap;text-align:left;max-width:600px;margin:0 auto;font-size:12px">'+S.error+'</div><br><button class="btn" onclick="cv=\'config\';render()">Ver diagnóstico</button></div>';return}
   if(!S.loaded){app.innerHTML='<div class="ld"><button class="btn" onclick="cv=\'config\';render()">Configurar Google Sheets</button></div>';return}
   switch(cv){
     case'dashboard':app.innerHTML=rDash();break;
@@ -338,14 +642,15 @@ function render(){
     case'tendencias':app.innerHTML=rTrend();setTimeout(dTrend,80);break;
     case'proyecciones':app.innerHTML=rProj();setTimeout(dProj,80);break;
     case'correlacion':app.innerHTML=rCorr();setTimeout(dCorr,80);break;
+    case'conexiones':app.innerHTML=rConex();break;
     case'email':app.innerHTML=rEmail();break;
   }
 }
 
-// ═══ HELPERS ═══
+// ═══════════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════════
 function ks(){return Object.keys(S.data)}
-function gs(v,m){if(v===null||v===undefined||isNaN(v))return'u';return v>=m?'g':v>=m*.75?'y':'r'}
-function pl(s){const m={g:['pg','Verde'],y:['py','Amarillo'],r:['pr','Rojo'],u:['pr','S/D']};const[c,l]=m[s]||m.u;return'<span class="pl '+c+'">'+l+'</span>'}
 function nm(v,d){d=d||2;return v!==null&&v!==undefined&&!isNaN(v)?Number(v).toFixed(d):'-'}
 function getProc(k){return S.data[k]?.proc||''}
 function groupedOpts(){
@@ -354,119 +659,145 @@ function groupedOpts(){
     const inds=ks().filter(k=>getProc(k)===p.id);
     if(!inds.length)return;
     o+='<optgroup label="'+p.name+' ('+inds.length+')">';
-    inds.forEach(k=>{o+='<option value="'+k+'"'+(k===si?' selected':'')+'>'+k+'</option>'});
+    inds.forEach(k=>{o+='<option value="'+k+'"'+(k===si?' selected':'')+'>'+k+(METAS[k]?' — '+METAS[k].name:'')+'</option>'});
     o+='</optgroup>';
   });
   return o;
 }
 
-// ═══ CONFIG ═══
+// ═══════════════════════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════════════════════
 function rConfig(){
   const c=gc();
-  return '<div class="cp"><h2>Configuración</h2>'+
-  '<p style="font-size:11px;color:var(--muted);margin-bottom:14px">Conecta tus 2 fuentes de datos. Esta app reemplaza al Resumen MMIM.</p>'+
+  let h='<div class="cp"><h2>Configuración</h2>'+
+  '<p style="font-size:11px;color:var(--muted);margin-bottom:14px">Conecta tus 2 fuentes de datos. Los IDs ya están precargados.</p>'+
   '<label>Tablero MMIM 2026 (datos semanales)</label><input id="c1" value="'+c.sheetMMIM+'">'+
-  '<div class="nt">URL o ID del Google Sheet. Contiene datos semanales de los 6 indicadores principales.</div>'+
+  '<div class="nt">URL o ID del Google Sheet con datos semanales.</div>'+
   '<label>Evaluación de Desempeño (todos los indicadores)</label><input id="c2" value="'+c.sheetEval+'">'+
-  '<div class="nt">URL o ID. Contiene los ~60 indicadores: DM, EH, CAMA, CACU, Materna, Neonatal, SOb, CUPN, CUSN, HOSP, IAAS, CE, CVE, CES, CIS.</div>'+
+  '<div class="nt">URL o ID. Contiene los ~60 indicadores MMIM con histórico.</div>'+
   '<label>Google API Key (opcional)</label><input id="c3" value="'+(c.apiKey||'')+'" placeholder="AIza...">'+
   '<button class="btn" onclick="sc({sheetMMIM:extractId(document.getElementById(\'c1\').value),sheetEval:extractId(document.getElementById(\'c2\').value),apiKey:document.getElementById(\'c3\').value.trim()});loadAllData()">Guardar y conectar</button>'+
   (S.loaded?'<div style="margin-top:10px;font-size:11px;color:var(--green)">Conectado: '+ks().length+' indicadores</div>':'')+'</div>';
+
+  // Diagnóstico de conexión
+  if(fetchLog.length>0){
+    const okCount=fetchLog.filter(l=>l.status==='ok').length;
+    const errCount=fetchLog.filter(l=>l.status==='error').length;
+    h+='<div class="cd" style="max-width:560px;margin:12px auto"><div class="ct">Diagnóstico de conexión ('+okCount+' ok / '+errCount+' error)</div>';
+    h+='<div class="tw" style="max-height:300px"><table><thead><tr><th>Hoja</th><th>Estado</th><th>Detalle</th></tr></thead><tbody>';
+    fetchLog.forEach(l=>{
+      const cls=l.status==='ok'?'pg':'pr';
+      h+='<tr><td><b>'+l.tab+'</b></td><td><span class="pl '+cls+'">'+(l.status==='ok'?'OK':'Error')+'</span></td>';
+      h+='<td style="font-size:10px">'+(l.note||'—')+'</td></tr>';
+    });
+    h+='</tbody></table></div></div>';
+  }
+  return h;
 }
 
-// ═══ DASHBOARD ═══
+// ═══════════════════════════════════════════════════════════════════
+// DASHBOARD — ahora con semáforo real y resumen ejecutivo
+// ═══════════════════════════════════════════════════════════════════
 function rDash(){
-  let tG=0,tY=0,tR=0,alerts=[];
-  const procStats={};
+  let tV=0,tA=0,tR=0,tSD=0,alerts=[];
   ks().forEach(k=>{
-    const d=S.data[k],p=d.proc||'';
-    if(!procStats[p])procStats[p]={g:0,y:0,r:0,total:0};
-    const oVal=d.ooad?d.ooad.val:null;
-    // Use OOAD value as the indicator-level status
-    if(oVal!==null){
-      procStats[p].total++;
-      // Simple threshold: we don't have all metas, so use value presence
-      tG++;procStats[p].g++;
-    }
-    // Count UMF-level alerts (missing or zero values)
-    d.umfs.forEach(u=>{
-      if(u.val===null||u.val===0){tR++;
-        if(u.val===0)alerts.push({ind:k,umf:u.nombre,val:0,proc:p});
-      }else tG++;
-    });
+    const d=S.data[k];const oVal=d.ooad?d.ooad.val:null;
+    const sem=evalSemaforo(k,oVal);
+    if(sem==='verde')tV++;else if(sem==='amarillo'){tA++;alerts.push({k,val:oVal,sem,tipo:'ooad'})}
+    else if(sem==='rojo'){tR++;alerts.push({k,val:oVal,sem,tipo:'ooad'})}
+    else tSD++;
   });
-
+  const total=ks().length;
   let h='<div class="g g4">';
-  h+='<div class="mc"><div class="lb">Indicadores cargados</div><div class="vl">'+ks().length+'</div><div class="sm">de ~60 del MMIM<span class="tg">LIVE</span></div></div>';
-  
-  // Count by group
-  const pse=ks().filter(k=>PROC.find(p=>p.id===getProc(k))?.group==='PSE').length;
-  const cn=ks().filter(k=>PROC.find(p=>p.id===getProc(k))?.group==='CN').length;
-  h+='<div class="mc"><div class="lb">Proceso Salud-Enfermedad</div><div class="vl">'+pse+'</div><div class="sm">DM, EH, CAMA, CACU, Mat, Neo, SOb</div></div>';
-  h+='<div class="mc"><div class="lb">Coordinaciones Normativas</div><div class="vl">'+cn+'</div><div class="sm">CUPN, CUSN, HOSP, IAAS, CE, CVE, CES, CIS</div></div>';
-  h+='<div class="mc"><div class="lb">Procesos activos</div><div class="vl">'+new Set(ks().map(k=>getProc(k))).size+'</div><div class="sm">de 15 del MMIM</div></div>';
+  h+='<div class="mc"><div class="lb">Indicadores</div><div class="vl">'+total+'</div><div class="sm">cargados de ~58 MMIM<span class="tg">LIVE</span></div></div>';
+  h+='<div class="mc"><div class="lb">Desempeño esperado</div><div class="vl gr">'+tV+'</div><div class="sm">'+(total>0?Math.round(tV/total*100):0)+'% en meta</div></div>';
+  h+='<div class="mc"><div class="lb">Desempeño medio</div><div class="vl yl">'+tA+'</div><div class="sm">Requieren vigilancia</div></div>';
+  h+='<div class="mc"><div class="lb">Desempeño bajo</div><div class="vl rd">'+tR+'</div><div class="sm">Acción correctiva urgente</div></div>';
   h+='</div>';
 
-  // Table grouped by process
-  h+='<div class="cd"><div class="ct">Todos los indicadores por proceso MMIM</div><div class="tw"><table><thead><tr><th style="width:25%">Proceso</th><th style="width:20%">Indicador</th><th>OOAD</th><th>UMFs</th><th>Con dato</th></tr></thead><tbody>';
-  
+  // Tabla por proceso con semáforo REAL
+  h+='<div class="cd"><div class="ct">Situación por proceso MMIM (con metas oficiales)</div><div class="tw"><table><thead><tr><th>Proceso</th><th>Indicador</th><th>OOAD</th><th>Meta</th><th>Estado</th><th>Pond.</th></tr></thead><tbody>';
   PROC.forEach(p=>{
     const inds=ks().filter(k=>getProc(k)===p.id);
     if(!inds.length)return;
-    // Process header
-    h+='<tr><td colspan="5" class="proc-hdr" style="border-color:'+p.color+'">'+p.name+' ('+inds.length+' indicadores)</td></tr>';
+    h+='<tr><td colspan="6" class="proc-hdr" style="border-color:'+p.color+'">'+p.name+' ('+inds.length+')</td></tr>';
     inds.forEach(k=>{
-      const d=S.data[k];
-      const oVal=d.ooad?nm(d.ooad.val):'-';
-      const withData=d.umfs.filter(u=>u.val!==null&&u.val!==0).length;
-      const total=d.umfs.length;
-      const pct=total>0?Math.round(withData/total*100):0;
-      const pctColor=pct>=80?'var(--green)':pct>=50?'var(--yellow)':'var(--red)';
-      h+='<tr><td></td><td><b>'+k+'</b></td><td>'+oVal+'</td><td>'+total+'</td>';
-      h+='<td style="color:'+pctColor+'"><b>'+withData+'/'+total+'</b> ('+pct+'%)</td></tr>';
+      const d=S.data[k];const m=getMetaVigente(k);
+      const oVal=d.ooad?d.ooad.val:null;
+      const sem=evalSemaforo(k,oVal);
+      const metaStr=m?(m.dir==='asc'?'≥':'≤')+' '+m.esp+(m.dinamico?' ('+m.mesTxt+')':''):'—';
+      const pondObt=calcPonderacion(k,oVal);
+      h+='<tr><td></td><td><b>'+k+'</b>'+(m?' <span style="font-size:9px;color:var(--muted)">'+m.name+'</span>':'')+'</td>';
+      h+='<td><b>'+nm(oVal)+'</b></td><td style="font-size:10px">'+metaStr+'</td>';
+      h+='<td>'+semPill(sem)+'</td><td style="font-size:10px">'+(m?nm(pondObt,1)+'/'+m.pond:'—')+'</td></tr>';
     });
   });
   h+='</tbody></table></div></div>';
 
-  // Alerts
+  // Alertas priorizadas
   if(alerts.length>0){
-    h+='<div class="cd"><div class="ct">UMFs con valor 0 (requieren atención)</div>';
-    alerts.slice(0,15).forEach(a=>{h+='<div class="al ar"><b>'+a.ind+'</b> — '+a.umf+'</div>'});
-    if(alerts.length>15)h+='<div style="font-size:10px;color:var(--muted);margin-top:4px">... y '+(alerts.length-15)+' más</div>';
+    const rojos=alerts.filter(a=>a.sem==='rojo');
+    const amarillos=alerts.filter(a=>a.sem==='amarillo');
+    h+='<div class="cd"><div class="ct">Alertas priorizadas ('+alerts.length+' indicadores fuera de meta)</div>';
+    rojos.forEach(a=>{
+      const m=METAS[a.k];
+      h+='<div class="al ar"><b>'+a.k+'</b> — OOAD: '+nm(a.val)+' | Meta: '+(m?(m.dir==='asc'?'≥':'≤')+' '+m.esp:'?')+' | <b>DESEMPEÑO BAJO</b></div>';
+    });
+    amarillos.forEach(a=>{
+      const m=METAS[a.k];
+      h+='<div class="al ay"><b>'+a.k+'</b> — OOAD: '+nm(a.val)+' | Meta: '+(m?(m.dir==='asc'?'≥':'≤')+' '+m.esp:'?')+' | Desempeño medio</div>';
+    });
     h+='</div>';
   }
   return h;
 }
 
-// ═══ SEMÁFORO ═══
+// ═══════════════════════════════════════════════════════════════════
+// SEMÁFORO — por UMF con metas reales
+// ═══════════════════════════════════════════════════════════════════
 function rSem(){
   const d=S.data[si];if(!d)return'<div class="ld">Sin datos</div>';
+  const m=getMetaVigente(si);
   let h='<div class="fl"><label>Indicador:</label><select onchange="si=this.value;su=\'all\';render()">'+groupedOpts()+'</select>';
   h+='<label>UMF:</label><select onchange="su=this.value;render()"><option value="all">Todas ('+d.umfs.length+')</option>';
   d.umfs.forEach(u=>{h+='<option value="'+u.nombre+'"'+(u.nombre===su?' selected':'')+'>'+u.nombre+'</option>'});
   h+='</select></div>';
 
+  // Meta info card
+  if(m){
+    h+='<div class="cd" style="padding:10px 14px"><div style="display:flex;gap:16px;flex-wrap:wrap;font-size:11px">';
+    h+='<div><b>Meta:</b> '+(m.dir==='asc'?'≥':'≤')+' '+m.esp+' '+m.unit+(m.dinamico?' <span class="tg2">'+m.mesTxt+'</span>':'')+'</div>';
+    h+='<div><b>Medio:</b> '+(m.dir==='asc'?'> '+m.medio_inf+' a < '+m.esp:' > '+m.esp+' a ≤ '+m.medio_sup)+'</div>';
+    h+='<div><b>Ponderación:</b> '+m.pond+' pts</div>';
+    h+='<div><b>Dirección:</b> '+(m.dir==='asc'?'Ascendente (mayor es mejor)':'Descendente (menor es mejor)')+'</div>';
+    if(m.nota) h+='<div style="color:var(--yellow)"><b>Nota:</b> '+m.nota+'</div>';
+    h+='</div></div>';
+  }
+
   h+='<div class="cd"><div class="ct">'+d.name+'</div><div class="tw"><table><thead><tr><th>Clave</th><th>UMF</th>';
-  // Show monthly columns if available
   const sampleU=d.umfs[0];
-  const moKeys=sampleU?Object.keys(sampleU.monthly||{}):[]; 
   const histKeys=sampleU?Object.keys(sampleU.hist||{}).sort():[];
+  const moKeys=sampleU?Object.keys(sampleU.monthly||{}):[];
   if(histKeys.length>0)histKeys.slice(-4).forEach(y=>{h+='<th>'+y+'</th>'});
   if(moKeys.length>0)moKeys.slice(0,4).forEach(m=>{h+='<th>'+m.substring(0,3)+'</th>'});
-  h+='<th>Último</th></tr></thead><tbody>';
+  h+='<th>Último</th><th>Estado</th></tr></thead><tbody>';
 
   const umfs=su==='all'?d.umfs:d.umfs.filter(u=>u.nombre===su);
   umfs.forEach(u=>{
+    const sem=evalSemaforo(si,u.val);
     h+='<tr><td style="font-size:9px;color:var(--muted)">'+u.clave+'</td><td><b>'+u.nombre+'</b></td>';
     if(histKeys.length>0)histKeys.slice(-4).forEach(y=>{h+='<td>'+nm(u.hist[y])+'</td>'});
     if(moKeys.length>0)moKeys.slice(0,4).forEach(m=>{h+='<td>'+nm(u.monthly?.[m])+'</td>'});
-    h+='<td><b>'+nm(u.val)+'</b></td></tr>';
+    h+='<td><b>'+nm(u.val)+'</b></td><td>'+semPill(sem)+'</td></tr>';
   });
   h+='</tbody></table></div></div>';
   return h;
 }
 
-// ═══ TENDENCIAS ═══
+// ═══════════════════════════════════════════════════════════════════
+// TENDENCIAS (preserved from v1)
+// ═══════════════════════════════════════════════════════════════════
 function rTrend(){
   let h='<div class="fl"><label>Indicador:</label><select onchange="si=this.value;render()">'+groupedOpts()+'</select></div>';
   h+='<div class="cd"><div class="ct">Valores por UMF — '+si+'</div><div class="cw"><canvas id="c1"></canvas></div></div>';
@@ -475,106 +806,525 @@ function rTrend(){
 function dTrend(){
   const d=S.data[si];if(!d)return;
   const colors=['#006341','#1d4ed8','#c0392b','#d4a017','#7c3aed','#0891b2','#db2777','#374151'];
-  // Use monthly data if available, otherwise show bar chart of current values
   const moKeys=d.umfs[0]?Object.keys(d.umfs[0].monthly||{}):[];
   const top=d.umfs.slice(0,8);
-
   if(moKeys.length>=2){
     const ds=top.map((u,i)=>({label:u.nombre,data:moKeys.map(m=>u.monthly?.[m]||null),borderColor:colors[i%8],backgroundColor:'transparent',tension:.3,pointRadius:2,borderWidth:2}));
-    charts.c1=new Chart(document.getElementById('c1'),{type:'line',data:{labels:moKeys,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:9}}}},scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}});
+    // Add meta line if available
+    const m=METAS[si];
+    if(m) ds.push({label:'Meta ('+m.esp+')',data:Array(moKeys.length).fill(m.esp),borderColor:'#ef4444',borderDash:[6,3],pointRadius:0,borderWidth:2,backgroundColor:'transparent'});
+    charts.c1=new Chart(document.getElementById('c1'),{type:'line',data:{labels:moKeys,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:9}}}},scales:{x:{grid:{display:false}},y:{beginAtZero:false}}}});
   }else{
-    // Bar chart of current values
     const labels=top.map(u=>u.nombre.replace(/UMF\s*/i,''));
     const vals=top.map(u=>u.val||0);
     charts.c1=new Chart(document.getElementById('c1'),{type:'bar',data:{labels,datasets:[{label:si,data:vals,backgroundColor:colors.slice(0,top.length)}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{beginAtZero:true}}}});
   }
 }
 
-// ═══ PROYECCIONES ═══
+// ═══════════════════════════════════════════════════════════════════
+// PROYECCIONES — ahora con regresión lineal real y alerta de riesgo
+// ═══════════════════════════════════════════════════════════════════
 function rProj(){
   let h='<div class="fl"><label>Indicador:</label><select onchange="si=this.value;render()">'+groupedOpts()+'</select></div>';
   const d=S.data[si];if(!d)return h;
-  h+='<div class="cd"><div class="ct">Comparativo UMFs — '+si+'</div><div class="cw"><canvas id="cp"></canvas></div></div>';
-  h+='<div class="cd"><div class="ct">Ranking de UMFs</div><div class="tw"><table><thead><tr><th>#</th><th>UMF</th><th>Valor</th><th>vs OOAD</th></tr></thead><tbody>';
-  
-  const oVal=d.ooad?d.ooad.val:null;
-  const sorted=[...d.umfs].filter(u=>u.val!==null).sort((a,b)=>b.val-a.val);
+  const m=getMetaVigente(si);
+  const ooad=d.ooad;
+  const histKeys=ooad?Object.keys(ooad.hist||{}).sort():[];
+  const moKeys=ooad?Object.keys(ooad.monthly||{}):[];
+
+  // Try monthly first, then historical
+  let pts=[];let labels=[];let projLabels=[];
+  if(moKeys.length>=3){
+    pts=moKeys.map((k,i)=>({x:i,y:ooad.monthly[k]}));
+    labels=moKeys;
+    projLabels=['Mes +1','Mes +2','Mes +3'];
+  } else if(histKeys.length>=2){
+    pts=histKeys.map((y,i)=>({x:i,y:ooad.hist[y]}));
+    labels=histKeys;
+    projLabels=['2025 (proy)','2026 (proy)','2027 (proy)'];
+  }
+
+  if(pts.length>=2){
+    const proj=projectNext(pts,3);
+    const {slope,r2}=linReg(pts);
+    const projVals=proj.map(p=>p.y);
+    const allLabels=[...labels,...projLabels];
+    const allVals=[...pts.map(p=>p.y),...projVals.map(()=>null)];
+    const allProj=[...pts.map(()=>null),...projVals];
+
+    // Risk assessment
+    let riskLevel='ok',riskMsg='Tendencia dentro de lo esperado.';
+    if(m){
+      const lastProj=projVals[projVals.length-1];
+      if(m.dir==='asc'&&lastProj<m.medio_inf){riskLevel='high';riskMsg='RIESGO: La proyección ('+nm(lastProj)+') queda por debajo del desempeño medio ('+m.medio_inf+'). Se requiere intervención inmediata.'}
+      else if(m.dir==='asc'&&lastProj<m.esp){riskLevel='med';riskMsg='ALERTA: La proyección ('+nm(lastProj)+') no alcanza la meta ('+m.esp+'). Vigilar tendencia.'}
+      else if(m.dir==='desc'&&lastProj>m.medio_sup){riskLevel='high';riskMsg='RIESGO: La proyección ('+nm(lastProj)+') excede el umbral de desempeño medio ('+m.medio_sup+'). Se requiere intervención.'}
+      else if(m.dir==='desc'&&lastProj>m.esp){riskLevel='med';riskMsg='ALERTA: La proyección ('+nm(lastProj)+') no cumple meta ('+m.esp+'). Vigilar tendencia.'}
+    }
+
+    h+='<div class="cd"><div class="ct">Proyección OOAD — '+si+' <span class="tg2">R²='+nm(r2)+'</span></div>';
+    h+='<div class="cw"><canvas id="cp"></canvas></div></div>';
+    h+='<div class="'+({high:'risk-high',med:'risk-med',ok:'risk-ok'}[riskLevel])+'"><b>'+(riskLevel==='high'?'⚠ ':'')+(riskLevel==='med'?'△ ':'✓ ')+riskMsg+'</b>';
+    h+='<br><span style="font-size:10px;color:var(--muted)">Pendiente: '+(slope>0?'+':'')+nm(slope,3)+' por período | R²='+nm(r2)+' | Basado en '+pts.length+' puntos</span></div>';
+  } else {
+    h+='<div class="ld">Datos insuficientes para proyección (se necesitan al menos 2 períodos)</div>';
+  }
+
+  // Ranking
+  h+='<div class="cd"><div class="ct">Ranking UMFs — '+si+'</div><div class="tw"><table><thead><tr><th>#</th><th>UMF</th><th>Valor</th><th>Meta</th><th>Estado</th></tr></thead><tbody>';
+  const sorted=[...d.umfs].filter(u=>u.val!==null).sort((a,b)=>{
+    if(m&&m.dir==='desc') return a.val-b.val;
+    return b.val-a.val;
+  });
   sorted.forEach((u,i)=>{
-    const diff=oVal!==null?u.val-oVal:null;
-    const diffColor=diff!==null?(diff>=0?'var(--green)':'var(--red)'):'var(--muted)';
-    const diffStr=diff!==null?((diff>=0?'+':'')+nm(diff,1)):'-';
+    const sem=evalSemaforo(si,u.val);
     h+='<tr><td>'+(i+1)+'</td><td><b>'+u.nombre+'</b></td><td>'+nm(u.val)+'</td>';
-    h+='<td style="color:'+diffColor+'">'+diffStr+'</td></tr>';
+    h+='<td style="font-size:10px">'+(m?(m.dir==='asc'?'≥':'≤')+' '+m.esp:'—')+'</td>';
+    h+='<td>'+semPill(sem)+'</td></tr>';
   });
   h+='</tbody></table></div></div>';
   return h;
 }
 function dProj(){
   const d=S.data[si];if(!d)return;
-  const sorted=[...d.umfs].filter(u=>u.val!==null).sort((a,b)=>b.val-a.val).slice(0,15);
-  const labels=sorted.map(u=>u.nombre.replace(/UMF\s*/i,'').substring(0,12));
-  const vals=sorted.map(u=>u.val);
-  const oVal=d.ooad?d.ooad.val:null;
-  const ds=[{label:si,data:vals,backgroundColor:'#006341'}];
-  if(oVal!==null)ds.push({label:'OOAD',data:Array(vals.length).fill(oVal),type:'line',borderColor:'#c0392b',borderDash:[4,4],pointRadius:0,borderWidth:2});
-  charts.cp=new Chart(document.getElementById('cp'),{type:'bar',data:{labels,datasets:ds},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:9}}}},scales:{x:{beginAtZero:true},y:{ticks:{font:{size:9}}}}}});
+  const ooad=d.ooad;if(!ooad)return;
+  const moKeys=Object.keys(ooad.monthly||{});
+  const histKeys=Object.keys(ooad.hist||{}).sort();
+  let pts=[],labels=[],projLabels=[];
+  if(moKeys.length>=3){
+    pts=moKeys.map((k,i)=>({x:i,y:ooad.monthly[k]}));labels=moKeys;projLabels=['Mes +1','Mes +2','Mes +3'];
+  }else if(histKeys.length>=2){
+    pts=histKeys.map((y,i)=>({x:i,y:ooad.hist[y]}));labels=histKeys;projLabels=['Proy 1','Proy 2','Proy 3'];
+  }
+  if(pts.length<2)return;
+  const proj=projectNext(pts,3);
+  const m=METAS[si];
+  const allLabels=[...labels,...projLabels];
+  const ds=[
+    {label:'Real',data:[...pts.map(p=>p.y),...proj.map(()=>null)],borderColor:'#006341',backgroundColor:'rgba(0,99,65,.1)',fill:true,tension:.3,pointRadius:4,borderWidth:2},
+    {label:'Proyección',data:[...pts.map(()=>null),...proj.map(p=>p.y)],borderColor:'#d4a017',borderDash:[5,3],backgroundColor:'rgba(212,160,23,.1)',fill:true,tension:.3,pointRadius:4,borderWidth:2}
+  ];
+  if(m) ds.push({label:'Meta ('+m.esp+')',data:Array(allLabels.length).fill(m.esp),borderColor:'#ef4444',borderDash:[6,3],pointRadius:0,borderWidth:2,backgroundColor:'transparent'});
+  const el=document.getElementById('cp');if(!el)return;
+  charts.cp=new Chart(el,{type:'line',data:{labels:allLabels,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:8,font:{size:9}}}},scales:{x:{grid:{display:false}},y:{beginAtZero:false}}}});
 }
 
-// ═══ CORRELACIÓN ═══
+// ═══════════════════════════════════════════════════════════════════
+// CORRELACIÓN — con Pearson y interpretación
+// ═══════════════════════════════════════════════════════════════════
 function rCorr(){
-  let h='<div class="cd"><div class="ct">Correlación entre indicadores</div>';
+  let h='<div class="cd"><div class="ct">Correlación entre indicadores (Pearson)</div>';
   h+='<div class="fl"><label>X:</label><select id="cx">'+groupedOpts()+'</select>';
   h+='<label>Y:</label><select id="cy">'+groupedOpts().replace('selected','')+'</select>';
-  h+='<button class="btn" onclick="dCorr()">Actualizar</button></div>';
+  h+='<button class="btn" onclick="dCorr()">Calcular</button></div>';
+  h+='<div id="corrResult"></div>';
   h+='<div class="cw"><canvas id="cc"></canvas></div></div>';
+
+  // Correlaciones conocidas
+  h+='<div class="cd"><div class="ct">Correlaciones epidemiológicas conocidas (MMIM)</div>';
+  h+='<div class="tw"><table><thead><tr><th>Indicador A</th><th>→</th><th>Indicador B</th><th>Tipo</th><th>Relación</th></tr></thead><tbody>';
+  CORR_CONOCIDAS.forEach(c=>{
+    const hasA=S.data[c.from],hasB=S.data[c.to];
+    if(!hasA||!hasB)return;
+    h+='<tr><td><b>'+c.from+'</b></td><td>→</td><td><b>'+c.to+'</b></td>';
+    h+='<td><span class="corr-box '+(c.tipo==='directa'?'corr-pos':'corr-neg')+'">'+c.tipo+'</span></td>';
+    h+='<td style="font-size:10px">'+c.desc+'</td></tr>';
+  });
+  h+='</tbody></table></div></div>';
   return h;
 }
 function dCorr(){
   const xK=document.getElementById('cx')?.value||ks()[0];
   const yK=document.getElementById('cy')?.value||ks()[1];
   const xD=S.data[xK],yD=S.data[yK];if(!xD||!yD)return;
-  const pts=[];
+  const pts=[];const xVals=[],yVals=[];
   xD.umfs.forEach(xu=>{
     const yu=yD.umfs.find(y=>y.nombre===xu.nombre||y.clave===xu.clave);
-    if(yu&&xu.val&&yu.val)pts.push({x:xu.val,y:yu.val,label:xu.nombre});
+    if(yu&&xu.val!==null&&yu.val!==null&&xu.val!==0&&yu.val!==0){
+      pts.push({x:xu.val,y:yu.val,label:xu.nombre});
+      xVals.push(xu.val);yVals.push(yu.val);
+    }
   });
+  // Calculate Pearson
+  const {r,n}=pearson(xVals,yVals);
+  const absR=Math.abs(r);
+  let strength='',cls='corr-neutral';
+  if(absR>=0.7){strength='Fuerte';cls=r>0?'corr-pos':'corr-neg'}
+  else if(absR>=0.4){strength='Moderada';cls=r>0?'corr-pos':'corr-neg'}
+  else if(absR>=0.2){strength='Débil';cls='corr-neutral'}
+  else{strength='Sin correlación';cls='corr-neutral'}
+  const dir=r>0?'positiva (directa)':'negativa (inversa)';
+
+  const resEl=document.getElementById('corrResult');
+  if(resEl){
+    let rh='<div style="padding:8px;background:#f8f7f3;border-radius:6px;margin-bottom:10px;font-size:11px">';
+    rh+='<b>r = <span class="corr-box '+cls+'">'+r.toFixed(3)+'</span></b> (n='+n+' UMFs) — ';
+    rh+='Correlación <b>'+strength+' '+dir+'</b>';
+    // Check known correlations
+    const known=CORR_CONOCIDAS.find(c=>(c.from===xK&&c.to===yK)||(c.from===yK&&c.to===xK));
+    if(known) rh+='<br><span style="color:var(--accent)">Relación MMIM: '+known.desc+'</span>';
+    rh+='</div>';
+    resEl.innerHTML=rh;
+  }
+
   if(charts.cc)charts.cc.destroy();
   charts.cc=new Chart(document.getElementById('cc'),{type:'scatter',data:{datasets:[{data:pts,backgroundColor:'rgba(0,99,65,.6)',pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw.label+': ('+nm(c.raw.x)+', '+nm(c.raw.y)+')'}}},scales:{x:{title:{display:true,text:xK}},y:{title:{display:true,text:yK}}}}});
 }
 
-// ═══ EMAIL ═══
+// ═══════════════════════════════════════════════════════════════════
+// CONEXIONES — análisis de impacto de un dato sobre otros
+// ═══════════════════════════════════════════════════════════════════
+function rConex(){
+  let h='<div class="cd"><div class="ct">Análisis de conexiones: ¿Qué afecta este indicador?</div>';
+  h+='<div class="fl"><label>Indicador:</label><select id="conInd" onchange="updateConex()">'+groupedOpts()+'</select></div>';
+  h+='<div id="conexResult"></div></div>';
+  setTimeout(updateConex,50);
+  return h;
+}
+function updateConex(){
+  const ind=document.getElementById('conInd')?.value;
+  if(!ind)return;
+  const el=document.getElementById('conexResult');if(!el)return;
+  const d=S.data[ind];if(!d){el.innerHTML='Sin datos';return}
+  const m=METAS[ind];
+  const oVal=d.ooad?d.ooad.val:null;
+  const sem=evalSemaforo(ind,oVal);
+
+  let h='<div style="margin-bottom:12px;padding:10px;background:#f8f7f3;border-radius:8px">';
+  h+='<b>'+ind+'</b>'+(m?' — '+m.name:'')+' | OOAD: <b>'+nm(oVal)+'</b> | '+semPill(sem);
+  h+='</div>';
+
+  // Find all connections
+  const afecta=CORR_CONOCIDAS.filter(c=>c.from===ind);
+  const afectado=CORR_CONOCIDAS.filter(c=>c.to===ind);
+
+  if(afecta.length>0){
+    h+='<div style="margin-bottom:10px"><b style="font-size:11px">Este indicador AFECTA a:</b></div>';
+    afecta.forEach(c=>{
+      const target=S.data[c.to];
+      const tVal=target?.ooad?.val;
+      const tSem=evalSemaforo(c.to,tVal);
+      h+='<div class="al '+(c.tipo==='directa'?'ag':'ay')+'">';
+      h+='<b>'+c.to+'</b> ('+nm(tVal)+') '+semPill(tSem)+' — '+c.desc;
+      h+='<br><span style="font-size:10px;color:var(--muted)">Correlación '+c.tipo+': si '+ind+' '+(c.tipo==='directa'?'sube, este sube':'sube, este baja')+'</span>';
+      h+='</div>';
+    });
+  }
+  if(afectado.length>0){
+    h+='<div style="margin-bottom:10px;margin-top:14px"><b style="font-size:11px">Este indicador ES AFECTADO por:</b></div>';
+    afectado.forEach(c=>{
+      const source=S.data[c.from];
+      const sVal=source?.ooad?.val;
+      const sSem=evalSemaforo(c.from,sVal);
+      h+='<div class="al '+(c.tipo==='directa'?'ag':'ay')+'">';
+      h+='<b>'+c.from+'</b> ('+nm(sVal)+') '+semPill(sSem)+' — '+c.desc;
+      h+='</div>';
+    });
+  }
+  if(afecta.length===0&&afectado.length===0){
+    h+='<div class="al" style="border-color:var(--muted);background:#f8f7f3">No se han definido conexiones conocidas para este indicador en el modelo epidemiológico.</div>';
+  }
+  el.innerHTML=h;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// EMAIL — personalizado por UMF con ficha técnica
+// ═══════════════════════════════════════════════════════════════════
+function getAllUmfNames(){
+  const names=new Set();
+  ks().forEach(k=>S.data[k].umfs.forEach(u=>names.add(u.nombre)));
+  return [...names].sort();
+}
+function getUmfFicha(umfName){
+  const ficha={nombre:umfName,clave:'',indicadores:[],rojos:0,amarillos:0,verdes:0,sd:0,totalPond:0,pondLograda:0};
+  ks().forEach(k=>{
+    const d=S.data[k];
+    const u=d.umfs.find(u=>u.nombre===umfName);
+    if(!u) return;
+    if(!ficha.clave&&u.clave) ficha.clave=u.clave;
+    const mv=getMetaVigente(k);
+    const sem=evalSemaforo(k,u.val);
+    const pond=mv?mv.pond:1;
+    const pondObtenida=calcPonderacion(k,u.val);
+    ficha.totalPond+=pond;
+    ficha.pondLograda+=pondObtenida;
+    if(sem==='verde') ficha.verdes++;
+    else if(sem==='amarillo') ficha.amarillos++;
+    else if(sem==='rojo') ficha.rojos++;
+    else ficha.sd++;
+    ficha.indicadores.push({
+      tab:k, val:u.val, sem, meta:mv, proc:getProc(k),
+      hist:u.hist, monthly:u.monthly
+    });
+  });
+  ficha.pctDesempeno=ficha.totalPond>0?Math.round(ficha.pondLograda/ficha.totalPond*100):0;
+  return ficha;
+}
+
+let emailUmf='all';
 function rEmail(){
   const today=new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
-  // Find indicators with UMFs at 0
-  let issues=[];
-  ks().forEach(k=>{S.data[k].umfs.forEach(u=>{
-    if(u.val===0||u.val===null)issues.push({ind:k,umf:u.nombre,val:u.val});
-  })});
-  let groups={};issues.forEach(a=>{if(!groups[a.umf])groups[a.umf]=[];groups[a.umf].push(a)});
+  const umfList=getAllUmfNames();
 
-  let email='ASUNTO: Seguimiento a Indicadores MMIM — '+ks().length+' indicadores monitoreados\n\n';
-  email+='Toluca, Estado de México, a '+today+'\n\n';
-  email+='C. Director(a) de la Unidad de Medicina Familiar\nOOAD México Poniente\nP R E S E N T E\n\n';
-  email+='La Coordinación de Información y Análisis Estratégico informa sobre el estado de los indicadores del MMIM 2026.\n\n';
-  email+='RESUMEN:\n';
-  email+='Indicadores monitoreados: '+ks().length+'\n';
-  PROC.forEach(p=>{
-    const n=ks().filter(k=>getProc(k)===p.id).length;
-    if(n>0)email+='  '+p.name+': '+n+' indicadores\n';
-  });
-  email+='\nUMFs CON INDICADORES EN 0 O SIN DATO:\n\n';
-  Object.entries(groups).slice(0,10).forEach(function(entry){
-    email+=entry[0]+':\n';
-    entry[1].forEach(function(a){email+='  - '+a.ind+': '+(a.val===0?'0%':'Sin dato')+'\n'});
-    email+='\n';
-  });
-  email+='Se solicita implementar acciones correctivas e informar avances en 15 días hábiles.\n\n';
-  email+='Atentamente,\nCoordinación de Información y Análisis Estratégico\nOOAD México Poniente';
+  let h='<div class="cd"><div class="ct">Generador de Email Institucional <span class="tg">PERSONALIZABLE</span></div>';
+  h+='<div class="fl">';
+  h+='<label>Dirigido a:</label><select id="emailTarget" onchange="emailUmf=this.value;render()">';
+  h+='<option value="all"'+(emailUmf==='all'?' selected':'')+'>General — Todas las unidades</option>';
+  umfList.forEach(u=>{h+='<option value="'+u+'"'+(emailUmf===u?' selected':'')+'>'+u+'</option>'});
+  h+='</select>';
+  h+='</div></div>';
 
-  return '<div class="cd"><div class="ct">Comunicado ejecutivo<span class="tg">LIVE</span></div>'+
-  '<div class="eb" id="em">'+email+'</div>'+
-  '<div style="margin-top:10px"><button class="btn" onclick="navigator.clipboard.writeText(document.getElementById(\'em\').innerText).then(function(){alert(\'Copiado\')})">Copiar al portapapeles</button></div></div>';
+  if(emailUmf==='all'){
+    h+=rEmailGeneral(today);
+  } else {
+    h+=rEmailUmf(emailUmf,today);
+  }
+  return h;
 }
+
+function rEmailGeneral(today){
+  const rojos=[],amarillos=[],verdes=[];
+  ks().forEach(k=>{
+    const d=S.data[k];const oVal=d.ooad?d.ooad.val:null;
+    const sem=evalSemaforo(k,oVal);const m=METAS[k];
+    const entry={k,val:oVal,sem,m,proc:getProc(k)};
+    if(sem==='rojo')rojos.push(entry);else if(sem==='amarillo')amarillos.push(entry);else if(sem==='verde')verdes.push(entry);
+  });
+  const umfProblems={};
+  ks().forEach(k=>{S.data[k].umfs.forEach(u=>{
+    const sem=evalSemaforo(k,u.val);
+    if(sem==='rojo'){if(!umfProblems[u.nombre])umfProblems[u.nombre]=[];umfProblems[u.nombre].push(k)}
+  })});
+  const topUmfs=Object.entries(umfProblems).sort((a,b)=>b[1].length-a[1].length).slice(0,5);
+
+  let email='ASUNTO: Seguimiento Indicadores MMIM 2026 — Hallazgos y acciones requeridas\n\n';
+  email+='Toluca de Lerdo, Estado de México, a '+today+'\n\n';
+  email+='C. Director(a) de la Unidad de Medicina Familiar\nOOAD México Poniente · IMSS\nP R E S E N T E\n\n';
+  email+='La CIAE de la OOAD México Poniente comunica los siguientes hallazgos del monitoreo MMIM 2026:\n\n';
+  email+='I. RESUMEN EJECUTIVO\n';
+  email+='Indicadores monitoreados: '+ks().length+'\n';
+  email+='   Desempeño esperado: '+verdes.length+' ('+Math.round(verdes.length/ks().length*100)+'%)\n';
+  email+='   Desempeño medio: '+amarillos.length+'\n';
+  email+='   Desempeño bajo: '+rojos.length+'\n\n';
+  if(rojos.length>0){
+    email+='II. INDICADORES EN DESEMPEÑO BAJO\n';
+    rojos.forEach(r=>{
+      email+='   '+r.k+(r.m?' — '+r.m.name:'')+'\n';
+      email+='      OOAD: '+nm(r.val)+' | Meta: '+(r.m?(r.m.dir==='asc'?'≥':'≤')+' '+r.m.esp:'—')+'\n';
+      const impactos=CORR_CONOCIDAS.filter(c=>c.from===r.k);
+      if(impactos.length>0) email+='      Impacto: '+impactos.map(i=>i.desc).join('; ')+'\n';
+      email+='\n';
+    });
+  }
+  if(topUmfs.length>0){
+    email+='III. UNIDADES CON MÁS INDICADORES EN DESEMPEÑO BAJO\n';
+    topUmfs.forEach(([umf,inds])=>{email+='   '+umf+': '+inds.length+' ind. ('+inds.join(', ')+')\n'});
+    email+='\n';
+  }
+  email+='Se solicita implementar acciones correctivas e informar avances en 15 días hábiles.\n\n';
+  email+='Atentamente,\nCIAE · OOAD México Poniente · IMSS';
+
+  return '<div class="cd"><div class="ct">Email general — Todas las unidades</div>'+
+  '<div class="eb" id="em">'+email+'</div>'+
+  '<div style="margin-top:10px"><button class="btn" onclick="copyEmail()">Copiar al portapapeles</button></div></div>';
+}
+
+function rEmailUmf(umfName, today){
+  const ficha=getUmfFicha(umfName);
+  const totalInd=ficha.indicadores.length;
+
+  // ── Ficha técnica visual ──
+  let h='<div class="cd"><div class="ct">Ficha técnica — '+umfName+'</div>';
+  h+='<div class="g g4" style="margin-bottom:10px">';
+  h+='<div class="mc"><div class="lb">Clave</div><div class="vl" style="font-size:14px">'+ficha.clave+'</div></div>';
+  h+='<div class="mc"><div class="lb">Indicadores</div><div class="vl" style="font-size:14px">'+totalInd+'</div></div>';
+  h+='<div class="mc"><div class="lb">Desempeño</div><div class="vl '+(ficha.pctDesempeno>=70?'gr':ficha.pctDesempeno>=50?'yl':'rd')+'" style="font-size:14px">'+ficha.pctDesempeno+'%</div></div>';
+  h+='<div class="mc"><div class="lb">Semáforo</div><div style="font-size:11px"><span style="color:var(--green)">●'+ficha.verdes+'</span> <span style="color:var(--yellow)">●'+ficha.amarillos+'</span> <span style="color:var(--red)">●'+ficha.rojos+'</span></div></div>';
+  h+='</div>';
+
+  // Tabla de indicadores de la UMF
+  h+='<div class="tw" style="max-height:300px"><table><thead><tr><th>Indicador</th><th>Nombre</th><th>Valor</th><th>Meta</th><th>Estado</th><th>Pts</th></tr></thead><tbody>';
+  ficha.indicadores.forEach(ind=>{
+    const m=ind.meta;
+    h+='<tr><td><b>'+ind.tab+'</b></td>';
+    h+='<td style="font-size:10px">'+(m?m.name:ind.tab)+'</td>';
+    h+='<td>'+nm(ind.val)+'</td>';
+    h+='<td style="font-size:10px">'+(m?(m.dir==='asc'?'≥':'≤')+' '+m.esp:'—')+'</td>';
+    h+='<td>'+semPill(ind.sem)+'</td>';
+    h+='<td style="font-size:10px">'+(m?m.pond:'—')+'</td></tr>';
+  });
+  h+='</tbody></table></div></div>';
+
+  // ── Proyecciones visuales de la UMF ──
+  const projRisks=[];
+  ficha.indicadores.forEach(ind=>{
+    const d=S.data[ind.tab];if(!d)return;
+    const u=d.umfs.find(uu=>uu.nombre===umfName);if(!u)return;
+    const moKeys=Object.keys(u.monthly||{});
+    const histKeys=Object.keys(u.hist||{}).sort();
+    let pts=[];
+    if(moKeys.length>=3) pts=moKeys.map((k,i)=>({x:i,y:u.monthly[k]}));
+    else if(histKeys.length>=2) pts=histKeys.map((y,i)=>({x:i,y:u.hist[y]}));
+    if(pts.length>=2){
+      const proj=projectNext(pts,2);
+      const {slope,r2}=linReg(pts);
+      const lastProj=proj[proj.length-1].y;
+      const m2=ind.meta;
+      let rsk='ok';
+      if(m2){
+        if(m2.dir==='asc'&&lastProj<m2.medio_inf) rsk='high';
+        else if(m2.dir==='asc'&&lastProj<m2.esp) rsk='med';
+        else if(m2.dir==='desc'&&lastProj>m2.medio_sup) rsk='high';
+        else if(m2.dir==='desc'&&lastProj>m2.esp) rsk='med';
+      }
+      projRisks.push({tab:ind.tab,actual:ind.val,proj:lastProj,slope,rsk,name:m2?m2.name:ind.tab});
+    }
+  });
+  if(projRisks.length>0){
+    const highRisks=projRisks.filter(p=>p.rsk==='high');
+    h+='<div class="cd"><div class="ct">Proyecciones próximo período'+(highRisks.length>0?' <span class="tg2">'+highRisks.length+' riesgo(s) alto(s)</span>':'')+'</div>';
+    h+='<div class="tw" style="max-height:250px"><table><thead><tr><th>Indicador</th><th>Actual</th><th>Proyección</th><th>Tendencia</th><th>Riesgo</th></tr></thead><tbody>';
+    projRisks.sort((a,b)=>{const o={high:0,med:1,ok:2};return o[a.rsk]-o[b.rsk]});
+    projRisks.forEach(p=>{
+      const rCls=p.rsk==='high'?'pr':p.rsk==='med'?'py':'pg';
+      const rTxt=p.rsk==='high'?'Alto':p.rsk==='med'?'Medio':'Bajo';
+      const arrow=p.slope>0?'<span style="color:var(--green)">▲</span>':'<span style="color:var(--red)">▼</span>';
+      h+='<tr><td><b>'+p.tab+'</b> <span style="font-size:9px;color:var(--muted)">'+p.name+'</span></td>';
+      h+='<td>'+nm(p.actual)+'</td><td><b>'+nm(p.proj)+'</b></td>';
+      h+='<td>'+arrow+' '+(p.slope>0?'+':'')+nm(p.slope,3)+'/per</td>';
+      h+='<td><span class="pl '+rCls+'">'+rTxt+'</span></td></tr>';
+    });
+    h+='</tbody></table></div></div>';
+  }
+
+  // ── Email personalizado ──
+  const rojosUmf=ficha.indicadores.filter(i=>i.sem==='rojo');
+  const amarillosUmf=ficha.indicadores.filter(i=>i.sem==='amarillo');
+  const verdesUmf=ficha.indicadores.filter(i=>i.sem==='verde');
+
+  let email='ASUNTO: Seguimiento de Indicadores MMIM 2026 — '+umfName+'\n\n';
+  email+='Toluca de Lerdo, Estado de México, a '+today+'\n\n';
+  email+='C. Director(a) de la '+umfName+'\nOOAD México Poniente · Instituto Mexicano del Seguro Social\nP R E S E N T E\n\n';
+  email+='La Coordinación de Información y Análisis Estratégico (CIAE), con base en el seguimiento del MMIM 2026, comunica la situación actual de su unidad:\n\n';
+
+  email+='══════════════════════════════════════════\n';
+  email+='FICHA TÉCNICA — '+umfName+'\n';
+  email+='Clave presupuestal: '+ficha.clave+'\n';
+  email+='══════════════════════════════════════════\n\n';
+
+  email+='RESUMEN DE DESEMPEÑO:\n';
+  email+='   Indicadores evaluados: '+totalInd+'\n';
+  email+='   Desempeño esperado (verde): '+verdesUmf.length+' ('+Math.round(verdesUmf.length/totalInd*100)+'%)\n';
+  email+='   Desempeño medio (amarillo): '+amarillosUmf.length+'\n';
+  email+='   Desempeño bajo (rojo): '+rojosUmf.length+'\n';
+  email+='   Ponderación alcanzada: '+ficha.pctDesempeno+'%\n\n';
+
+  if(rojosUmf.length>0){
+    email+='INDICADORES EN DESEMPEÑO BAJO (acción correctiva inmediata):\n';
+    email+='──────────────────────────────────────────\n';
+    rojosUmf.forEach(ind=>{
+      const m=ind.meta;
+      email+='   '+ind.tab+(m?' — '+m.name:'')+'\n';
+      email+='      Valor: '+nm(ind.val)+' '+( m?m.unit:'')+'\n';
+      email+='      Meta: '+(m?(m.dir==='asc'?'≥':'≤')+' '+m.esp+' '+m.unit:'—')+'\n';
+      email+='      Ponderación: '+(m?m.pond+' pts (0 obtenidos)':'—')+'\n';
+      // Impacto
+      const impactos=CORR_CONOCIDAS.filter(c=>c.from===ind.tab);
+      if(impactos.length>0) email+='      Impacto: '+impactos.map(i=>i.desc).join('; ')+'\n';
+      email+='\n';
+    });
+  }
+
+  if(amarillosUmf.length>0){
+    email+='INDICADORES EN DESEMPEÑO MEDIO (vigilancia):\n';
+    email+='──────────────────────────────────────────\n';
+    amarillosUmf.forEach(ind=>{
+      const m=ind.meta;
+      email+='   '+ind.tab+': '+nm(ind.val)+(m?' (meta: '+(m.dir==='asc'?'≥':'≤')+' '+m.esp+')':'')+'\n';
+    });
+    email+='\n';
+  }
+
+  if(verdesUmf.length>0){
+    email+='INDICADORES EN DESEMPEÑO ESPERADO:\n';
+    email+='──────────────────────────────────────────\n';
+    verdesUmf.forEach(ind=>{
+      email+='   '+ind.tab+': '+nm(ind.val)+'\n';
+    });
+    email+='\n';
+  }
+
+  // ── PROYECCIONES por indicador de la UMF ──
+  const projecciones=[];
+  ficha.indicadores.forEach(ind=>{
+    const d=S.data[ind.tab];if(!d)return;
+    const u=d.umfs.find(u=>u.nombre===umfName);if(!u)return;
+    const moKeys=Object.keys(u.monthly||{});
+    const histKeys=Object.keys(u.hist||{}).sort();
+    let pts=[];
+    if(moKeys.length>=3){
+      pts=moKeys.map((k,i)=>({x:i,y:u.monthly[k]}));
+    } else if(histKeys.length>=2){
+      pts=histKeys.map((y,i)=>({x:i,y:u.hist[y]}));
+    }
+    if(pts.length>=2){
+      const proj=projectNext(pts,2);
+      const {slope,r2}=linReg(pts);
+      const lastProj=proj[proj.length-1].y;
+      const m=ind.meta;
+      let riesgo='estable';
+      if(m){
+        if(m.dir==='asc'&&lastProj<m.medio_inf) riesgo='alto';
+        else if(m.dir==='asc'&&lastProj<m.esp) riesgo='medio';
+        else if(m.dir==='desc'&&lastProj>m.medio_sup) riesgo='alto';
+        else if(m.dir==='desc'&&lastProj>m.esp) riesgo='medio';
+      }
+      projecciones.push({tab:ind.tab,actual:ind.val,proyectado:lastProj,tendencia:slope>0?'↑':'↓',riesgo,r2});
+    }
+  });
+  
+  if(projecciones.length>0){
+    email+='PROYECCIONES (próximo período):\n';
+    email+='──────────────────────────────────────────\n';
+    email+='   Indicador       Actual   Proyec.  Tend.  Riesgo\n';
+    projecciones.forEach(p=>{
+      const tab=(p.tab+'               ').substring(0,15);
+      const act=(nm(p.actual)+'        ').substring(0,8);
+      const pry=(nm(p.proyectado)+'        ').substring(0,8);
+      const rsk=p.riesgo==='alto'?'⚠ ALTO':p.riesgo==='medio'?'△ MEDIO':'✓ BAJO';
+      email+='   '+tab+act+pry+p.tendencia+'      '+rsk+'\n';
+    });
+    const riesgosAltos=projecciones.filter(p=>p.riesgo==='alto');
+    if(riesgosAltos.length>0){
+      email+='\n   ALERTA: '+riesgosAltos.length+' indicador(es) proyectan incumplimiento:\n';
+      riesgosAltos.forEach(p=>{email+='      '+p.tab+': proyección '+nm(p.proyectado)+' (actual: '+nm(p.actual)+')\n'});
+    }
+    email+='\n';
+  }
+
+  email+='ACCIONES SOLICITADAS:\n';
+  if(rojosUmf.length>0){
+    email+='   1. Implementar acciones correctivas inmediatas en los '+rojosUmf.length+' indicadores en desempeño bajo.\n';
+    email+='   2. Remitir plan de mejora a la CIAE en un plazo no mayor a 15 días hábiles.\n';
+    email+='   3. Informar avances en la siguiente sesión de seguimiento delegacional.\n';
+  } else if(amarillosUmf.length>0){
+    email+='   1. Fortalecer acciones en los '+amarillosUmf.length+' indicadores en desempeño medio para alcanzar las metas.\n';
+    email+='   2. Informar estrategias implementadas en la siguiente sesión de seguimiento.\n';
+  } else {
+    email+='   Se reconoce el desempeño de su unidad. Se solicita mantener las acciones que han permitido alcanzar las metas.\n';
+  }
+  email+='\nSin otro particular, quedo a sus órdenes.\n\n';
+  email+='Atentamente,\nCoordinación de Información y Análisis Estratégico\nOOAD México Poniente\nInstituto Mexicano del Seguro Social';
+
+  h+='<div class="cd"><div class="ct">Email personalizado — '+umfName+'</div>';
+  h+='<div class="eb" id="em">'+email+'</div>';
+  h+='<div style="margin-top:10px;display:flex;gap:8px">';
+  h+='<button class="btn" onclick="copyEmail()">Copiar al portapapeles</button>';
+  h+='</div></div>';
+  return h;
+}
+
+function copyEmail(){navigator.clipboard.writeText(document.getElementById('em').innerText).then(()=>alert('Copiado al portapapeles'))}
 
 init();
 </script>
