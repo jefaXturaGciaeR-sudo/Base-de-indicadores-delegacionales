@@ -439,21 +439,48 @@ function projectNext(pts, ahead=3){
 // ═══════════════════════════════════════════════════════════════════
 let fetchLog=[];
 async function fetchSheetRaw(sid,tab){
-  const url = `https://opensheet.elk.sh/${sid}/${encodeURIComponent(tab)}`;
-  
-  const r = await fetch(url);
-  if(!r.ok) throw new Error('HTTP '+r.status);
+  // Estrategia 1: Google Visualization API (preserva estructura cruda del Sheet)
+  try{
+    const gvizUrl='https://docs.google.com/spreadsheets/d/'+sid+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(tab);
+    const r1=await fetch(gvizUrl);
+    if(r1.ok){
+      const t=await r1.text();
+      if(!t.includes('accounts.google.com')&&!t.includes('ServiceLogin')){
+        const match=t.match(/google\.visualization\.Query\.setResponse\((.+)\);?/s);
+        if(match){
+          const j=JSON.parse(match[1]);
+          if(j.status!=='error'){
+            return{
+              src:'gviz',
+              cols:j.table.cols.map(c=>c.label||''),
+              rows:j.table.rows.map(row=>row.c.map(c=>{
+                if(!c) return null;
+                if(typeof c.v==='number') return c.v;
+                if(c.v!==null&&c.v!==undefined) return c.v;
+                return c.f||null;
+              }))
+            };
+          }
+        }
+      }
+    }
+  }catch(e){/* gviz falló, intentar opensheet */}
 
-  const data = await r.json();
-
-  if(!data || data.length === 0){
-    throw new Error('Hoja vacía o no encontrada');
-  }
-
-  const cols = Object.keys(data[0]);
-  const rows = data.map(row => cols.map(c => row[c]));
-
-  return { cols, rows };
+  // Estrategia 2: opensheet.elk.sh (funciona siempre pero fila 1 = headers)
+  const osUrl='https://opensheet.elk.sh/'+sid+'/'+encodeURIComponent(tab);
+  const r2=await fetch(osUrl);
+  if(!r2.ok) throw new Error('HTTP '+r2.status);
+  const data=await r2.json();
+  if(!data||data.length===0) throw new Error('Hoja vacía');
+  // Convertir formato opensheet a formato de filas para el parser
+  const cols=Object.keys(data[0]);
+  const rows=data.map(row=>cols.map(c=>{
+    const v=row[c];
+    if(v===''||v===null||v===undefined) return null;
+    const n=Number(v);
+    return(!isNaN(n)&&v!=='')?n:v;
+  }));
+  return{src:'opensheet',cols,rows};
 }
 async function fetchSheet(sid,tab){
   // Intentar nombre exacto primero, luego variantes comunes
@@ -487,9 +514,113 @@ async function fetchSheet(sid,tab){
 // GENERIC PARSER (same logic as v1, preserved)
 // ═══════════════════════════════════════════════════════════════════
 function parseGeneric(data, tabName){
-  if(!data||!data.rows||data.rows.length<13)return null;
+  if(!data||!data.rows||data.rows.length<3) return null;
   const R=data.rows;
+  const isOpensheet=(data.src==='opensheet');
+
   let name=tabName;
+
+  // ── OPENSHEET FORMAT ──
+  // Keys of the JSON objects become column headers
+  // The first row with "Clave presupuestal" or a 12-digit code is our data start
+  // OpenSheet already skips empty rows, so structure is different
+  if(isOpensheet){
+    // The cols from opensheet are the header keys from row 1 of the sheet
+    // which in our Eval sheets is typically empty or has metadata
+    // We need to find which columns contain: clave, nombre, and data
+    const cols=data.cols;
+    
+    // Try to find indicator name from first few rows
+    for(let r=0;r<Math.min(3,R.length);r++){
+      for(let c=0;c<Math.min(5,R[r].length);c++){
+        const v=String(R[r][c]||'').trim();
+        if(v.length>15&&(v.includes('-')||v.includes('Cobertura')||v.includes('Porcentaje')||v.includes('Tasa')||v.includes('Promedio')||v.includes('Índice'))){name=v;break}
+      };if(name!==tabName)break;
+    }
+    
+    // Find the header row — look for "Clave presupuestal" or "Unidad" in any row
+    let hdrRowIdx=-1;
+    let claveCol=-1,unidadCol=-1;
+    for(let r=0;r<Math.min(20,R.length);r++){
+      for(let c=0;c<Math.min(10,R[r].length);c++){
+        const v=String(R[r][c]||'').trim().toLowerCase();
+        if(v==='clave presupuestal'){hdrRowIdx=r;claveCol=c;break}
+        if(v==='unidad'){hdrRowIdx=r;unidadCol=c;break}
+      };if(hdrRowIdx>=0)break;
+    }
+    // Also check column names (keys) themselves
+    if(hdrRowIdx<0){
+      cols.forEach((c,i)=>{
+        const cl=c.toLowerCase().trim();
+        if(cl==='clave presupuestal') claveCol=i;
+        if(cl==='unidad') unidadCol=i;
+      });
+      if(claveCol>=0||unidadCol>=0) hdrRowIdx=-1; // headers are in cols, data starts at row 0
+    }
+    
+    const dataStartRow=hdrRowIdx>=0?hdrRowIdx+1:0;
+    if(claveCol<0) claveCol=0;
+    if(unidadCol<0) unidadCol=claveCol+1;
+    
+    // Find the header row for column labels (years, months)
+    const hdrLabels=hdrRowIdx>=0?R[hdrRowIdx]:cols.map(String);
+    
+    // Find last column with numeric data
+    let lastDataCol=-1;
+    for(let c=hdrLabels.length-1;c>=2;c--){
+      for(let r=dataStartRow;r<Math.min(dataStartRow+5,R.length);r++){
+        const v=R[r]?.[c];
+        if(v!==null&&typeof v==='number'&&v!==0){lastDataCol=c;break}
+      };if(lastDataCol>=0)break;
+    }
+    if(lastDataCol<0) lastDataCol=Math.min(4,hdrLabels.length-1);
+    
+    const umfs=[];let ooad=null;
+    const months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    
+    for(let r=dataStartRow;r<R.length;r++){
+      const row=R[r];if(!row) continue;
+      const c0=String(row[claveCol]||'').trim();
+      const c1=String(row[unidadCol]||'').trim();
+      if(!c0&&!c1) continue;
+      const nm=c1||c0;
+      if(nm.length<3) continue;
+      
+      // Skip non-data rows
+      const isNumericName=/^\d+(\.\d+)?$/.test(nm);
+      const isHeader=/^(cierre|oficial|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|mensual|anual|ponder|esperado|medio|bajo|total|nacional|amgd|indicador|periodicidad|puntos|tabla|histórico|2026|construir|situación)/i.test(nm);
+      if(isNumericName||isHeader) continue;
+      
+      const val=typeof row[lastDataCol]==='number'?Math.round(row[lastDataCol]*100)/100:null;
+      
+      // Historical years
+      const hist={};
+      for(let c=2;c<=Math.min(10,hdrLabels.length-1);c++){
+        const yr=hdrLabels[c];const v=row[c];
+        if(yr&&typeof v==='number'){
+          const yrNum=typeof yr==='number'?yr:parseInt(String(yr));
+          if(yrNum>=2018&&yrNum<=2025) hist[yrNum]=Math.round(v*100)/100;
+        }
+      }
+      // Monthly values
+      const monthly={};
+      for(let c=2;c<hdrLabels.length;c++){
+        const h=String(hdrLabels[c]||'').trim();
+        const mo=months.find(m=>h.toLowerCase().includes(m.toLowerCase()));
+        if(mo&&typeof row[c]==='number'){if(!monthly[mo]) monthly[mo]=Math.round(row[c]*100)/100}
+      }
+      
+      const entry={nombre:nm,clave:c0,val,hist,monthly};
+      
+      if(nm.toLowerCase().includes('ooad')||nm.toLowerCase().includes('poniente')||nm.toLowerCase().includes('méxico poniente')||c0==='16')
+        ooad=entry;
+      else if(nm.match(/^(UMF|HGZ|HGR|UMFH|HGO|UMAA)/i)||/^\d{12}$/.test(c0)||(nm.length>5&&!nm.toLowerCase().includes('total')&&!nm.toLowerCase().includes('nacional')&&!nm.toLowerCase().includes('indicador')))
+        umfs.push(entry);
+    }
+    return{name,tab:tabName,ooad,umfs,val_col:lastDataCol};
+  }
+
+  // ── GVIZ FORMAT (original parser — structure preserved) ──
   for(let r=0;r<4;r++){for(let c=0;c<5;c++){
     const v=String(R[r]?.[c]||'').trim();
     if(v.length>15&&(v.includes('-')||v.includes('Cobertura')||v.includes('Porcentaje')||v.includes('Tasa')||v.includes('Promedio')||v.includes('Índice'))){name=v;break}
@@ -520,6 +651,9 @@ function parseGeneric(data, tabName){
     if(!c0&&!c1)continue;
     const nm=c1||c0;
     if(nm.length<3)continue;
+    const isNumericName=/^\d+(\.\d+)?$/.test(nm);
+    const isHeader=/^(cierre|oficial|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre|mensual|anual|ponder|esperado|medio|bajo|total|nacional|amgd|indicador|periodicidad|puntos|tabla|histórico|2026|construir|situación)/i.test(nm);
+    if(isNumericName||isHeader) continue;
     const val=typeof row[lastDataCol]==='number'?Math.round(row[lastDataCol]*100)/100:null;
     const hist={};
     for(let c=2;c<=8;c++){
@@ -539,7 +673,7 @@ function parseGeneric(data, tabName){
     const entry={nombre:nm,clave:c0,val,hist,monthly};
     if(nm.toLowerCase().includes('ooad')||nm.toLowerCase().includes('poniente')||nm.toLowerCase().includes('méxico poniente')||c0==='16')
       ooad=entry;
-    else if(nm.match(/^(UMF|HGZ|HGR|UMFH|HGO)/i)||/^\d{12}$/.test(c0)||(nm.length>4&&!nm.toLowerCase().includes('total')&&!nm.toLowerCase().includes('nacional')))
+    else if(nm.match(/^(UMF|HGZ|HGR|UMFH|HGO|UMAA)/i)||/^\d{12}$/.test(c0)||(nm.length>5&&!nm.toLowerCase().includes('total')&&!nm.toLowerCase().includes('nacional')&&!nm.toLowerCase().includes('indicador')))
       umfs.push(entry);
   }
   return{name,tab:tabName,ooad,umfs,val_col:lastDataCol};
